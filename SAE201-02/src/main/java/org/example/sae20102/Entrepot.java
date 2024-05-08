@@ -1,3 +1,5 @@
+package org.example.sae20102;
+
 public class Entrepot {
     private int quantite;
     private TypeM minerai;

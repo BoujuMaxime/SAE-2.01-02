@@ -1,3 +1,5 @@
+package org.example.sae20102;
+
 public class Grille {
     private int ligne;
     private int colonne;

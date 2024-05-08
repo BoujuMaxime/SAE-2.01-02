@@ -1,8 +1,12 @@
+package org.example.sae20102;
+
 public class Robot {
     private TypeM nature;
     private int capacite;
     private int quantite;
     private TypeM natureEntrepot;
+    private int capaciter;
+
 
     public Robot(TypeM nature, TypeM natureEntrepot) {
         this.capacite = 100;

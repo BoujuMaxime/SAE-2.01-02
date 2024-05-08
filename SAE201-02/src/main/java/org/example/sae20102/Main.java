@@ -1,3 +1,5 @@
+package org.example.sae20102;
+
 public class Main {
     public static void main(String[] args) {
         Mine mine1 = new Mine(TypeM.OR);

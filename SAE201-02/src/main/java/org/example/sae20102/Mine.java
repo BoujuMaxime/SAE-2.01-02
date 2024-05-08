@@ -1,4 +1,6 @@
-import
+package org.example.sae20102;
+
+import org.example.sae20102.TypeM;
 
 public class Mine {
     private int capaciter;
@@ -10,6 +12,7 @@ public class Mine {
     }
 
     public int getCapaciter() {
+
         return capaciter;
     }
 
