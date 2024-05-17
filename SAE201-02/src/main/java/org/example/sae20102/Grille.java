@@ -17,6 +17,9 @@ public class Grille {
                 this.secteurs[i][j] = new Secteur();
             }
         }
+        this.robots = new ArrayList<>();
+        this.mines = new ArrayList<>();
+        this.entrepots = new ArrayList<>();
     }
 
     public void addEau(int x, int y) {
@@ -25,11 +28,14 @@ public class Grille {
 
     public void addRobot(Robot robot, int x, int y) {
         this.secteurs[x][y].addRobot(robot);
+        this.robots.add(robot);
+        this.robots.get(this.robots.size() - 1).setCoord(x, y);
     }
 
     public void moveRobot(int x1, int y1, int x2, int y2, Robot robot) {
         this.secteurs[x2][y2].addRobot(robot);
         this.secteurs[x1][y1].removeRobot();
+        this.robots.get(this.robots.indexOf(robot)).setCoord(x2, y2);
     }
 
     public void addMine(Mine mine, int x, int y) {
@@ -42,26 +48,37 @@ public class Grille {
         this.entrepots.add(entrepot);
     }
 
+    public Robot getRobot(String numRobot) {
+        for (Robot robot : this.robots) {
+            if (robot.getNumR().equals(numRobot)) {
+                return robot;
+            }
+        }
+        return null;
+    }
+
+    public Secteur getSecteur(int x, int y) {
+        return this.secteurs[x][y];
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        // Ajouter la ligne de bordure supérieure
+
         sb.append("+");
         for (int i = 0; i < taille; i++) {
             sb.append("---+");
         }
         sb.append("\n");
 
-        // Ajouter les lignes de la grille avec des bordures et séparations
         for (int i = 0; i < taille; i++) {
-            sb.append("|");  // Bordure gauche
+            sb.append("|");
             for (int j = 0; j < taille; j++) {
                 sb.append(" " + secteurs[i][j].toString() + " |");
             }
             sb.append("\n");
 
-            // Ajouter une ligne de séparation
             sb.append("+");
             for (int k = 0; k < taille; k++) {
                 sb.append("---+");
