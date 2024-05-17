@@ -3,13 +3,15 @@ package org.example.sae20102;
 public class Entrepot {
     private int quantite;
     private TypeM minerai;
+    private String numEntrepot;
 
-    public Entrepot(TypeM minerai) {
+    public Entrepot(TypeM minerai, String numEntrepot) {
         this.quantite = 0;
         this.minerai = minerai;
+        this.numEntrepot = numEntrepot;
     }
 
-    public void remplir(int quantite) {
+    public void fill(int quantite) {
         this.quantite += quantite;
     }
 
@@ -19,5 +21,9 @@ public class Entrepot {
 
     public TypeM getNature() {
         return minerai;
+    }
+
+    public String getNumE(){
+        return this.numEntrepot;
     }
 }
