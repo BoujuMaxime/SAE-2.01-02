@@ -5,7 +5,6 @@ public class Robot {
     private int capacite;
     private int quantite;
     private TypeM natureEntrepot;
-    private int capaciter;
 
 
     public Robot(TypeM nature, TypeM natureEntrepot) {
@@ -17,7 +16,7 @@ public class Robot {
 
     public void remplir(Mine mine) {
         if (this.nature.equals(mine.getNature())) {
-            int quantite = Math.min(this.capaciter - this.quantite, mine.getQuantite());
+            int quantite = Math.min(this.capacite - this.quantite, mine.getCapacite());
             this.quantite += quantite;
             mine.extraire(quantite);
         }
@@ -25,9 +24,7 @@ public class Robot {
 
     public void vider(Entrepot entrepot) {
         if (this.natureEntrepot.equals(entrepot.getNature())) {
-            int quantite = Math.min(this.quantite, entrepot.getCapaciter() - entrepot.getQuantite());
-            this.quantite -= quantite;
-            entrepot.remplir(quantite);
+            entrepot.remplir(this.quantite);
         }
     }
 
@@ -35,7 +32,7 @@ public class Robot {
         return quantite;
     }
 
-    public String getNature() {
+    public TypeM getNature() {
         return nature;
     }
 }

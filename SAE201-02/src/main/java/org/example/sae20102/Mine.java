@@ -3,17 +3,16 @@ package org.example.sae20102;
 import org.example.sae20102.TypeM;
 
 public class Mine {
-    private int capaciter;
+    private int capacite;
     private Minerai minerai;
 
-    public Mine(nature) {
-        this.capaciter = 50 + (int)(Math.random() * 50);
+    public Mine(Minerai minerai) {
+        this.capacite = 50 + (int)(Math.random() * 50);
         this.minerai = minerai;
     }
 
-    public int getCapaciter() {
-
-        return capaciter;
+    public int getCapacite() {
+        return capacite;
     }
 
     public Minerai getMinerai() {
@@ -21,8 +20,12 @@ public class Mine {
     }
 
     public void extraire(int quantite) {
-        if (quantite <= capaciter) {
-            capaciter -= quantite;
+        if (quantite <= capacite) {
+            capacite -= quantite;
         }
+    }
+
+    public TypeM getNature(){
+        return this.minerai.getNature();
     }
 }
