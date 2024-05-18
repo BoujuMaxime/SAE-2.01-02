@@ -20,12 +20,17 @@ public class Robot {
             int quantite = Math.min(this.capacite - this.quantite, mine.getCapacite());
             this.quantite += quantite;
             mine.Extrate(quantite);
+        } else {
+            System.out.println("Le robot ne peut pas transporter ce type de minerai");
         }
     }
 
     public void Unload(Entrepot entrepot) {
         if (this.nature.equals(entrepot.getNature())) {
             entrepot.Fill(this.quantite);
+        }
+        else {
+            System.out.println("L'entrepot ne peut pas recevoir ce type de minerai");
         }
     }
 

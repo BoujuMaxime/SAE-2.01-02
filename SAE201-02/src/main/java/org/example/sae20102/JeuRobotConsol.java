@@ -2,8 +2,9 @@ package org.example.sae20102;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Scanner;
 
-public class Main {
+public class JeuRobotConsol {
 
     public static void main(String[] args) {
         ArrayList<Robot> robots = new ArrayList<>();
@@ -11,7 +12,42 @@ public class Main {
         ArrayList<Entrepot> entrepots = new ArrayList<>();
         Grille grille = createGrille(robots, mines, entrepots);
 
-        System.out.println(grille);
+        while (true){
+            System.out.println(grille);
+            for (Robot robot : robots) {
+                Secteur secteurRobot = robot.getSecteur();
+                if (secteurRobot.getCellule(0, 0).equals(" ")) {
+                    System.out.println("Direction (H/B/G/D) : ");
+                    Scanner scanner = new Scanner(System.in);
+                    String direction = scanner.nextLine();
+                    grille = Move(robot, grille, direction);
+                }
+                if (secteurRobot.getCellule(0, 0).equals("M")) {
+                    System.out.println("Voulez-vous remplir le robot ? (O/N) : ");
+                    Scanner scanner = new Scanner(System.in);
+                    String reponse = scanner.nextLine();
+                    if (Objects.equals(reponse, "O")) {
+                        FillRobot(robot, mines);
+                    } else {
+                        System.out.println("Direction (H/B/G/D) : ");
+                        String direction = scanner.nextLine();
+                        grille = Move(robot, grille, direction);
+                    }
+                }
+                if (secteurRobot.getCellule(0, 0).equals("E")) {
+                    System.out.println("Voulez-vous décharger le robot ? (O/N) : ");
+                    Scanner scanner = new Scanner(System.in);
+                    String reponse = scanner.nextLine();
+                    if (Objects.equals(reponse, "O")) {
+                        UnloadRobot(robot, entrepots);
+                    } else {
+                        System.out.println("Direction (H/B/G/D) : ");
+                        String direction = scanner.nextLine();
+                        grille = Move(robot, grille, direction);
+                    }
+                }
+            }
+        }
     }
 
 
@@ -135,16 +171,35 @@ public class Main {
             int y = robot.getSecteur().getColonne();
 
             if (Objects.equals(direction, "H")) {
-                grille.moveRobot(x, y, x - 1, y, robot);
-            } else if (Objects.equals(direction, "B")) {
-                grille.moveRobot(x, y, x + 1, y, robot);
-            } else if (Objects.equals(direction, "G")) {
-                grille.moveRobot(x, y, x, y - 1, robot);
-            } else if (Objects.equals(direction, "D")) {
-                grille.moveRobot(x, y, x, y + 1, robot);
+                if (x > 0) {
+                    grille.moveRobot(x, y, x - 1, y, robot);
+                } else {
+                    System.out.println("Déplacement impossible");
+                }
+            }
+            if (Objects.equals(direction, "B")) {
+                if (x < 9) {
+                    grille.moveRobot(x, y, x + 1, y, robot);
+                } else {
+                    System.out.println("Déplacement impossible");
+                }
+            }
+            if (Objects.equals(direction, "G")) {
+                if (y > 0) {
+                    grille.moveRobot(x, y, x, y - 1, robot);
+                } else {
+                    System.out.println("Déplacement impossible");
+                }
+            }
+            if (Objects.equals(direction, "D")) {
+                if (y < 9) {
+                    grille.moveRobot(x, y, x, y + 1, robot);
+                } else {
+                    System.out.println("Déplacement impossible");
+                }
             }
             return grille;
-        }
+    }
 
     private static void FillRobot(Robot robot, ArrayList<Mine> mines) {
         Secteur secteur = robot.getSecteur();
