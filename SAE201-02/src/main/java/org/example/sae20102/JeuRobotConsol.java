@@ -171,32 +171,32 @@ public class JeuRobotConsol {
             int y = robot.getSecteur().getColonne();
 
             if (Objects.equals(direction, "H")) {
-                if (x > 0) {
-                    grille.moveRobot(x, y, x - 1, y, robot);
-                } else {
-                    System.out.println("Déplacement impossible");
-                }
+                if (x > 0 ) {
+                    if (!grille.getSecteur(x - 1, y).getCellule(0, 0).equals("X") && !grille.getSecteur(x - 1, y).getCellule(0, 0).equals("R")) {
+                        grille.moveRobot(x, y, x - 1, y, robot);
+                    } else {System.out.println("Déplacement impossible");}
+                } else {System.out.println("Déplacement impossible horsh limite");}
             }
             if (Objects.equals(direction, "B")) {
-                if (x < 9) {
-                    grille.moveRobot(x, y, x + 1, y, robot);
-                } else {
-                    System.out.println("Déplacement impossible");
-                }
+                if (x < 9 ) {
+                    if (!grille.getSecteur(x + 1, y).getCellule(0, 0).equals("X") && !grille.getSecteur(x + 1, y).getCellule(0, 0).equals("R")) {
+                        grille.moveRobot(x, y, x + 1, y, robot);
+                    } else {System.out.println("Déplacement impossible");}
+                } else {System.out.println("Déplacement impossible or limite");}
             }
             if (Objects.equals(direction, "G")) {
-                if (y > 0) {
-                    grille.moveRobot(x, y, x, y - 1, robot);
-                } else {
-                    System.out.println("Déplacement impossible");
-                }
+                if (y > 0 ) {
+                    if (!grille.getSecteur(x, y - 1).getCellule(0, 0).equals("X") && !grille.getSecteur(x, y - 1).getCellule(0, 0).equals("R")) {
+                        grille.moveRobot(x, y, x, y - 1, robot);
+                    } else {System.out.println("Déplacement impossible");}
+                } else {System.out.println("Déplacement impossible hors limite");}
             }
             if (Objects.equals(direction, "D")) {
-                if (y < 9) {
-                    grille.moveRobot(x, y, x, y + 1, robot);
-                } else {
-                    System.out.println("Déplacement impossible");
-                }
+                if (y < 9 ) {
+                    if (!grille.getSecteur(x, y + 1).getCellule(0, 0).equals("X") && !grille.getSecteur(x, y + 1).getCellule(0, 0).equals("R")) {
+                        grille.moveRobot(x, y, x, y + 1, robot);
+                    } else {System.out.println("Déplacement impossible");}
+                } else {System.out.println("Déplacement impossible hors limite");}
             }
             return grille;
     }
@@ -218,5 +218,4 @@ public class JeuRobotConsol {
             }
         }
     }
-
 }
