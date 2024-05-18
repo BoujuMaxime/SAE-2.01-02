@@ -5,27 +5,27 @@ public class Robot {
     private int capacite;
     private int quantite;
     private String numRobot;
-    private int x;
-    private int y;
+    private Secteur secteur;
 
-    public Robot(TypeM nature, String numRobot) {
+    public Robot(TypeM nature, String numRobot, Secteur secteur) {
         this.quantite = 0;
         this.capacite = 100;
         this.nature = nature;
         this.numRobot = numRobot;
+        this.secteur = secteur;
     }
 
-    public void fill(Mine mine) {
+    public void Fill(Mine mine) {
         if (this.nature.equals(mine.getNature())) {
             int quantite = Math.min(this.capacite - this.quantite, mine.getCapacite());
             this.quantite += quantite;
-            mine.extrate(quantite);
+            mine.Extrate(quantite);
         }
     }
 
-    public void unload(Entrepot entrepot) {
+    public void Unload(Entrepot entrepot) {
         if (this.nature.equals(entrepot.getNature())) {
-            entrepot.fill(this.quantite);
+            entrepot.Fill(this.quantite);
         }
     }
 
@@ -41,16 +41,11 @@ public class Robot {
         return this.numRobot;
     }
 
-    public void setCoord(int x, int y) {
-        this.x = x;
-        this.y = y;
+    public void setSecteur(Secteur secteur){
+        this.secteur = secteur;
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
+    public Secteur getSecteur(){
+        return this.secteur;
     }
 }

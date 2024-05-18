@@ -1,19 +1,20 @@
 package org.example.sae20102;
 
-import org.example.sae20102.TypeM;
-
 public class Mine {
     private int capacite;
     private TypeM minerai;
     private String numMine;
+    private Secteur secteur;
 
-    public Mine(TypeM minerai, String numMine) {
+    public Mine(TypeM minerai, String numMine, Secteur secteur) {
         this.capacite = 50 + (int)(Math.random() * 50);
         this.minerai = minerai;
         this.numMine = numMine;
+        this.secteur = secteur;
     }
 
-    public void extrate(int quantite) {
+
+    public void Extrate(int quantite) {
         if (quantite <= capacite) {
             capacite -= quantite;
         }
@@ -22,6 +23,7 @@ public class Mine {
     public TypeM getNature(){
         return this.minerai;
     }
+
     public String getNumM(){
         return this.numMine;
     }
@@ -30,5 +32,7 @@ public class Mine {
         return capacite;
     }
 
-
+    public Secteur getSecteur(){
+        return this.secteur;
+    }
 }

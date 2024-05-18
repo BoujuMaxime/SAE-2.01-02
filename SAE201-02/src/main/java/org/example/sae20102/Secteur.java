@@ -1,28 +1,34 @@
 package org.example.sae20102;
 
 public class Secteur {
-
     private int ligne;
     private int colonne;
     private String[][] cellules;
 
-    public Secteur(){
-        this.ligne = 2;
-        this.colonne = 2;
-        this.cellules = new String[this.ligne][this.colonne];
+    public Secteur(int ligne, int colonne) {
+        this.ligne = ligne;
+        this.colonne = colonne;
+        this.cellules = new String[2][2];
         this.createSecteur();
     }
 
-    public String[][] createSecteur(){
-        for (int i = 0; i < this.ligne; i++) {
-            for (int j = 0; j < this.colonne; j++) {
+    public void createSecteur() {
+        /* Secteur vide
+         * | | |
+         * | | |
+         * */
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 2; j++) {
                 cellules[i][j] = " ";
             }
         }
-        return cellules;
     }
 
     public void addEau(){
+        /* Secteur avec de l'eau
+        * |X|X|
+        * |X|X|
+        * */
         cellules[0][0] = "X";
         cellules[0][1] = "X";
         cellules[1][0] = "X";
@@ -30,13 +36,35 @@ public class Secteur {
     }
 
     public void addMine(Mine mine) {
+        /* Secteur avec une mine
+        * |M|*|
+        * | | |
+        * */
         cellules[0][0] = "M";
         cellules[0][1] = String.valueOf(mine.getNumM());
     }
 
+    public void addEntrepot(Entrepot entrepot) {
+        /* Secteur avec un entrepot
+         * |E|*|
+         * | | |
+         */
+        cellules[0][0] = "E";
+        cellules[0][1] = String.valueOf(entrepot.getNumE());
+    }
+
     public void addRobot(Robot robot) {
+        /* Secteur avec un robot
+        * | | |
+        * |R|*|
+         */
+        /* Secteur avec un robot et une mine
+        * |M|*|
+        * |R|*|
+        * */
         cellules[1][0] = "R";
         cellules[1][1] = String.valueOf(robot.getNumR());
+        robot.setSecteur(this);
     }
 
     public void removeRobot() {
@@ -44,13 +72,16 @@ public class Secteur {
         cellules[1][1] = " ";
     }
 
-    public void addEntrepot(Entrepot entrepot) {
-        cellules[0][0] = "E";
-        cellules[0][1] = String.valueOf(entrepot.getNumE());
+    public int getLigne(){
+        return this.ligne;
     }
 
-    public String[][] getCellules(){
-        return cellules;
+    public int getColonne(){
+        return this.colonne;
+    }
+
+    public String getCellule(int i, int j){
+        return cellules[i][j];
     }
 
     @Override
