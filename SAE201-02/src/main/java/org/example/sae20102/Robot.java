@@ -4,12 +4,14 @@ public class Robot {
     private TypeM nature;
     private int capacite;
     private int quantite;
+    private int recolte;
     private String numRobot;
     private Secteur secteur;
 
     public Robot(TypeM nature, String numRobot, Secteur secteur) {
         this.quantite = 0;
-        this.capacite = 100;
+        this.capacite = 5 + (int)(Math.random() * 4);
+        this.recolte = 1 + (int)(Math.random() * 2);
         this.nature = nature;
         this.numRobot = numRobot;
         this.secteur = secteur;
@@ -17,9 +19,11 @@ public class Robot {
 
     public void Fill(Mine mine) {
         if (this.nature.equals(mine.getNature())) {
-            int quantite = Math.min(this.capacite - this.quantite, mine.getCapacite());
-            this.quantite += quantite;
-            mine.Extrate(quantite);
+            if (this.quantite < this.capacite) {
+                int quantite = Math.min(this.recolte, mine.getCapacite());
+                this.quantite += quantite;
+                mine.Extrate(quantite);
+            }
         } else {
             System.out.println("Le robot ne peut pas transporter ce type de minerai");
         }
@@ -36,6 +40,10 @@ public class Robot {
 
     public int getQuantite() {
         return quantite;
+    }
+
+    public int getCapacite() {
+        return capacite;
     }
 
     public TypeM getNature() {
