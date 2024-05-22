@@ -1,12 +1,15 @@
 package org.example.sae20102;
 
 import org.example.sae20102.Model.*;
+import org.example.sae20102.Model.Robot;
 
+
+import java.awt.*;
 import java.util.Objects;
 import java.util.Scanner;
 
-public class JeuRobotConsol {
-
+public class Controller {
+    public int tileSize = 48;
     public static void main(String[] args) {
 
         int nbMines = 2 + ((int)(Math.random() * 3));
@@ -271,4 +274,5 @@ public class JeuRobotConsol {
     private static void UnloadRobot(Robot robot, Entrepot entrepot) {
         robot.Unload(entrepot);
     }
+
 }

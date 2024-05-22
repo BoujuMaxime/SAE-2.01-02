@@ -1,8 +1,11 @@
 package org.example.sae20102.Model;
 
+import java.awt.*;
+
 public class Grille {
     private int taille;
     private Secteur[][] secteurs;
+
 
     public Grille() {
         this.taille = 10;

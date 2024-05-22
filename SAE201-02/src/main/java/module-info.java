@@ -1,7 +1,9 @@
 module org.example.sae20102 {
     requires javafx.controls;
     requires javafx.fxml;
+    requires java.desktop;
 
+    exports org.example.sae20102.Vue;
 
     opens org.example.sae20102 to javafx.fxml;
     exports org.example.sae20102;
