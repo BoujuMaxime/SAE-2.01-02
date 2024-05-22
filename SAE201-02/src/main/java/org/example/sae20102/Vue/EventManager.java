@@ -23,8 +23,4 @@ public class EventManager implements EventHandler {
              }
          }
     }
-
-    public static void main(String[] args) {
-        launch();
-    }
 }

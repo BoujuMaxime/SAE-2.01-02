@@ -17,12 +17,12 @@ import java.io.File;
 
 public class PagePrincipale extends Application {
     Group root = new Group();
-    Image myImage = new Image("https://github.com/Maxiausore/SAE-2.01-02/blob/0221a5c22d72f75be7bba7499955b395e8e7fed6/SAE201-02/src/main/java/org/example/sae20102/Vue/gameMenuImage.gif");
-    Image myImage2 = new Image("StartPasAppuye.png");
-    Image myImage3 = new Image("START_APPUYE_00000.png");
-    Image nomJeu = new Image("Mech-Miners.png");
-    Image myImage4 = new Image("quitPasAppuye_00000.png");
-    Image myImage5 = new Image("quitAppuye.png");
+    Image myImage = new Image(getClass().getResource("/image/gameMenuImage.gif").toString());
+    Image myImage2 = new Image(getClass().getResource("/image/StartPasAppuye.png").toString());
+    Image myImage3 = new Image(getClass().getResource("/image/StartAppuye.png").toString());
+    Image nomJeu = new Image(getClass().getResource("/image/Mech_Miners.png").toString());
+    Image myImage4 = new Image(getClass().getResource("/image/QuitPasAppuye.png").toString());
+    Image myImage5 = new Image(getClass().getResource("/image/QuitAppuye.png").toString());
 
     ImageView background = new ImageView(myImage);
     ImageView start = new ImageView(myImage2);
