@@ -1,5 +1,7 @@
 package org.example.sae20102;
 
+import org.example.sae20102.Model.*;
+
 import java.util.Objects;
 import java.util.Scanner;
 

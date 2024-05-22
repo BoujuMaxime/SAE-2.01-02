@@ -1,6 +1,4 @@
-package org.example.sae20102;
-
-import java.util.ArrayList;
+package org.example.sae20102.Model;
 
 public class Grille {
     private int taille;

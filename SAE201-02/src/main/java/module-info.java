@@ -5,4 +5,6 @@ module org.example.sae20102 {
 
     opens org.example.sae20102 to javafx.fxml;
     exports org.example.sae20102;
+    exports org.example.sae20102.Model;
+    opens org.example.sae20102.Model to javafx.fxml;
 }

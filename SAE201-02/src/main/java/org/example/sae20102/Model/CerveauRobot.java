@@ -1,6 +1,4 @@
-package org.example.sae20102;
-
-import java.util.ArrayList;
+package org.example.sae20102.Model;
 
 public class CerveauRobot {
     // Si un robot est vide, il doit se diriger vers la mine de son minerai la plus proche
@@ -26,7 +24,7 @@ public class CerveauRobot {
     }
 
     public static String getReponseRobot(Robot robot, Object type) {
-        if ( type.getClass().getName().equals("org.example.sae20102.Mine") ) {
+        if ( type.getClass().getName().equals("org.example.sae20102.Model.Mine") ) {
             if ( robot.getQuantite() == 0 ) {
                 return "O";
             } else {

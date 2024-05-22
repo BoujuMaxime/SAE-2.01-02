@@ -1,4 +1,4 @@
-package org.example.sae20102;
+package org.example.sae20102.Model;
 
 public class Entrepot {
     private int quantite;

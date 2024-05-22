@@ -1,4 +1,4 @@
-package org.example.sae20102;
+package org.example.sae20102.Model;
 
 public class Secteur {
     private int ligne;
