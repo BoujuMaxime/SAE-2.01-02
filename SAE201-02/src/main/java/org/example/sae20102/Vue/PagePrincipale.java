@@ -17,7 +17,7 @@ import java.io.File;
 
 public class PagePrincipale extends Application {
     Group root = new Group();
-    Image myImage = new Image("gameMenuImage.gif");
+    Image myImage = new Image("https://github.com/Maxiausore/SAE-2.01-02/blob/0221a5c22d72f75be7bba7499955b395e8e7fed6/SAE201-02/src/main/java/org/example/sae20102/Vue/gameMenuImage.gif");
     Image myImage2 = new Image("StartPasAppuye.png");
     Image myImage3 = new Image("START_APPUYE_00000.png");
     Image nomJeu = new Image("Mech-Miners.png");
