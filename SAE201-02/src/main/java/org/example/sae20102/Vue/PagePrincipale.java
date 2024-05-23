@@ -31,6 +31,8 @@ public class PagePrincipale extends Application {
     ImageView quitPasAppuye = new ImageView(myImage4);
     ImageView quitAppuye = new ImageView(myImage5);
 
+    Scene scene = new Scene(root, 960, 490);
+
     @Override
     public void start(Stage stage) {
         background.setFitWidth(960);
@@ -73,11 +75,14 @@ public class PagePrincipale extends Application {
         EventManager ev = new EventManager(this);
         start.setOnMouseClicked(ev);
         quitPasAppuye.setOnMouseClicked(ev);
+        quitPasAppuye.setOnMouseEntered(ev);
+        quitPasAppuye.setOnMouseExited(ev);
+        start.setOnMouseEntered(ev);
+        start.setOnMouseExited(ev);
 
 
 
         root.getChildren().addAll(background, start, nomJeuu, quitPasAppuye);
-        Scene scene = new Scene(root, 960, 490);
         stage.setTitle("Jeu");
         stage.setScene(scene);
         stage.show();
