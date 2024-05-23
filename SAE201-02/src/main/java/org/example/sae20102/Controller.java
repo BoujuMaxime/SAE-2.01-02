@@ -1,121 +1,32 @@
 package org.example.sae20102;
 
+import javafx.application.Application;
 import org.example.sae20102.Model.*;
 import org.example.sae20102.Model.Robot;
+import org.example.sae20102.Vue.*;
 
-
-import java.awt.*;
 import java.util.Objects;
 import java.util.Scanner;
 
-public class Controller {
-    public int tileSize = 48;
-    public static void main(String[] args) {
+public class Controller  {
+    private int nbMines;
+    private int nbEntrepots;
+    private int nbRobots;
+    private  Entrepot[] entrepots;
+    private  Mine[] mines;
+    private  Robot[] robots;
+    private Grille grille;
 
-        int nbMines = 2 + ((int)(Math.random() * 3));
-        int nbEntrepots = 2 ;
-        int nbRobots = 2 + ((int)(Math.random() * 3));
 
-        Entrepot[] entrepots = new Entrepot[nbEntrepots];
-        Mine[] mines = new Mine[nbMines];
-        Robot[] robots = new Robot[nbRobots];
-        Grille grille = createGrille(robots, mines, entrepots);
+    public Controller() {
+        nbMines = 2 + ((int)(Math.random() * 3));
+        nbEntrepots = 2 ;
+        nbRobots = 2 + ((int)(Math.random() * 3));
 
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Jeu Humain (H) ou Robot (R) : ");
-        String jeu = scanner.nextLine();
-        if (Objects.equals(jeu, "H")) {
-            jeuHumainConsol(robots, mines, entrepots, grille);
-        } else {
-            jeuRobotConsol(robots, mines, entrepots, grille);
-        }
-    }
-
-    private static void jeuRobotConsol(Robot[] robots, Mine[] mines, Entrepot[] entrepots, Grille grille) {
-    Scanner scanner = new Scanner(System.in);
-    while (true) {
-        System.out.println(grille);
-        System.out.println("Appuyer sur entrée pour continuer");
-        scanner.nextLine();
-        for (Robot robot : robots) {
-            Secteur secteurRobot = robot.getSecteur();
-            String cellule = secteurRobot.getCellule(0, 0);
-            String direction, reponse;
-            switch (cellule) {
-                case " ":
-                    direction = CerveauRobot.getDirectionRobot(robot, grille);
-                    MoveRobot(robot, grille, direction);
-                    break;
-                case "M":
-                    int numMine = Integer.parseInt(secteurRobot.getCellule(0, 1));
-                    Mine mine = mines[numMine];
-                    reponse = CerveauRobot.getReponseRobot(robot, mine);
-                    if (Objects.equals(reponse, "O")) {
-                        FillRobot(robot, mine);
-                    } else {
-                        direction = CerveauRobot.getDirectionRobot(robot, grille);
-                        MoveRobot(robot, grille, direction);
-                    }
-                    break;
-                case "E":
-                    int numEntrepot = Integer.parseInt(secteurRobot.getCellule(0, 1));
-                    Entrepot entrepot = entrepots[numEntrepot];
-                    reponse = CerveauRobot.getReponseRobot(robot, entrepot);
-                    if (Objects.equals(reponse, "O")) {
-                        UnloadRobot(robot, entrepot);
-                    } else {
-                        direction = CerveauRobot.getDirectionRobot(robot, grille);
-                        MoveRobot(robot, grille, direction);
-                    }
-                    break;
-            }
-        }
-    }
-}
-
-    private static void jeuHumainConsol(Robot[] robots, Mine[] mines, Entrepot[] entrepots, Grille grille) {
-        Scanner scanner = new Scanner(System.in);
-        while (true){
-            System.out.println(grille);
-            for (Robot robot : robots) {
-                Secteur secteurRobot = robot.getSecteur();
-                String cellule = secteurRobot.getCellule(0, 0);
-                String direction, reponse;
-                switch (cellule) {
-                    case " ":
-                        System.out.println("Direction (H/B/G/D) : ");
-                        direction = scanner.nextLine();
-                        MoveRobot(robot, grille, direction);
-                        break;
-                    case "M":
-                        int numMine = Integer.parseInt(secteurRobot.getCellule(0, 1));
-                        Mine mine = mines[numMine];
-                        System.out.println("Voulez-vous remplir le robot ? (O/N) : ");
-                        reponse = scanner.nextLine();
-                        if (Objects.equals(reponse, "O")) {
-                            FillRobot(robot, mine);
-                        } else {
-                            System.out.println("Direction (H/B/G/D) : ");
-                            direction = scanner.nextLine();
-                            MoveRobot(robot, grille, direction);
-                        }
-                        break;
-                    case "E":
-                        int numEntrepot = Integer.parseInt(secteurRobot.getCellule(0, 1));
-                        Entrepot entrepot = entrepots[numEntrepot];
-                        System.out.println("Voulez-vous décharger le robot ? (O/N) : ");
-                        reponse = scanner.nextLine();
-                        if (Objects.equals(reponse, "O")) {
-                            UnloadRobot(robot, entrepot);
-                        } else {
-                            System.out.println("Direction (H/B/G/D) : ");
-                            direction = scanner.nextLine();
-                            MoveRobot(robot, grille, direction);
-                        }
-                        break;
-                }
-            }
-        }
+        entrepots = new Entrepot[nbEntrepots];
+        mines = new Mine[nbMines];
+        robots = new Robot[nbRobots];
+        grille = createGrille(robots, mines, entrepots);
     }
 
     private static Grille createGrille(Robot[] robots, Mine[] mines, Entrepot[] entrepots) {
@@ -275,4 +186,11 @@ public class Controller {
         robot.Unload(entrepot);
     }
 
+    public Grille getGrille() {
+        return grille;
+    }
+
+    public Robot[] getRobots() {
+        return robots;
+    }
 }

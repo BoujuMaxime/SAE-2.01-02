@@ -54,11 +54,16 @@ public class Robot {
         return this.numRobot;
     }
 
+    public Secteur getSecteur(){
+        return this.secteur;
+    }
+
+    public int getRecolte(){
+        return this.recolte;
+    }
+
     public void setSecteur(Secteur secteur){
         this.secteur = secteur;
     }
 
-    public Secteur getSecteur(){
-        return this.secteur;
-    }
 }
