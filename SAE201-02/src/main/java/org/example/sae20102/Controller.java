@@ -1,12 +1,9 @@
 package org.example.sae20102;
 
-import javafx.application.Application;
 import org.example.sae20102.Model.*;
 import org.example.sae20102.Model.Robot;
-import org.example.sae20102.Vue.*;
 
 import java.util.Objects;
-import java.util.Scanner;
 
 public class Controller  {
     private int nbMines;
@@ -30,6 +27,7 @@ public class Controller  {
     }
 
     private static Grille createGrille(Robot[] robots, Mine[] mines, Entrepot[] entrepots) {
+        System.out.println("Création de la grille");
         Grille grille = new Grille();
         int nbEau = (int)(Math.random() * 10);
         int nbMines = mines.length;
@@ -144,46 +142,54 @@ public class Controller  {
             return grille;
         }
 
-    private static void MoveRobot(Robot robot, Grille grille, String direction) {
-            int x = robot.getSecteur().getLigne();
-            int y = robot.getSecteur().getColonne();
+    public boolean MoveRobot(Robot robot, String direction) {
+        int x = robot.getSecteur().getLigne();
+        int y = robot.getSecteur().getColonne();
 
-            if (Objects.equals(direction, "H")) {
-                if (x > 0 ) {
-                    if (!grille.getSecteur(x - 1, y).getCellule(0, 0).equals("X") && !grille.getSecteur(x - 1, y).getCellule(0, 0).equals("R")) {
+        switch (direction) {
+            case "H":
+                if (x > 0) {
+                    if (Objects.equals(grille.getSecteur(x - 1, y).getCellule(1, 0), " ")) {
                         grille.moveRobot(x, y, x - 1, y, robot);
-                    } else {System.out.println("Déplacement impossible");}
-                } else {System.out.println("Déplacement impossible hors limite");}
-            }
-            if (Objects.equals(direction, "B")) {
-                if (x < 9 ) {
-                    if (!grille.getSecteur(x + 1, y).getCellule(0, 0).equals("X") && !grille.getSecteur(x + 1, y).getCellule(0, 0).equals("R")) {
+                        return true;
+                    }
+                }
+                break;
+            case "B":
+                if (x < 9) {
+                    if (Objects.equals(grille.getSecteur(x + 1, y).getCellule(1, 0), " ")) {
                         grille.moveRobot(x, y, x + 1, y, robot);
-                    } else {System.out.println("Déplacement impossible");}
-                } else {System.out.println("Déplacement impossible or limite");}
-            }
-            if (Objects.equals(direction, "G")) {
-                if (y > 0 ) {
-                    if (!grille.getSecteur(x, y - 1).getCellule(0, 0).equals("X") && !grille.getSecteur(x, y - 1).getCellule(0, 0).equals("R")) {
-                        grille.moveRobot(x, y, x, y - 1, robot);
-                    } else {System.out.println("Déplacement impossible");}
-                } else {System.out.println("Déplacement impossible hors limite");}
-            }
-            if (Objects.equals(direction, "D")) {
-                if (y < 9 ) {
-                    if (!grille.getSecteur(x, y + 1).getCellule(0, 0).equals("X") && !grille.getSecteur(x, y + 1).getCellule(0, 0).equals("R")) {
+                        return true;
+                    }
+                }
+                break;
+            case "D":
+                if (y < 9) {
+                    if (Objects.equals(grille.getSecteur(x, y + 1).getCellule(1, 0), " ")) {
                         grille.moveRobot(x, y, x, y + 1, robot);
-                    } else {System.out.println("Déplacement impossible");}
-                } else {System.out.println("Déplacement impossible hors limite");}
-            }
+                        return true;
+                    }
+                }
+                break;
+            case "G":
+                if (y > 0) {
+                    if (Objects.equals(grille.getSecteur(x, y - 1).getCellule(1, 0), " ")) {
+                        grille.moveRobot(x, y, x, y - 1, robot);
+                        return true;
+                    }
+                }
+                break;
+        }
+
+        return false;
     }
 
-    private static void FillRobot(Robot robot, Mine mine) {
-        robot.Fill(mine);
+    public boolean FillRobot(Robot robot, Mine mine) {
+        return robot.Fill(mine);
     }
 
-    private static void UnloadRobot(Robot robot, Entrepot entrepot) {
-        robot.Unload(entrepot);
+    public boolean UnloadRobot(Robot robot, Entrepot entrepot) {
+        return robot.Unload(entrepot);
     }
 
     public Grille getGrille() {
@@ -192,5 +198,13 @@ public class Controller  {
 
     public Robot[] getRobots() {
         return robots;
+    }
+
+    public Entrepot[] getEntrepots() {
+        return entrepots;
+    }
+
+    public Mine[] getMines() {
+        return mines;
     }
 }

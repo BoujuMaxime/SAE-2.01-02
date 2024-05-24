@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.ImagePattern;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
@@ -26,27 +27,38 @@ public class PageJeu extends Application {
     private Image Image5 = new Image(getClass().getResource("/image/QuitAppuye.png").toString());
     private Image Image6 = new Image(getClass().getResource("/image/Mech_Miners.png").toString());
 
+    private Image Image7 = new Image(getClass().getResource("/image/grass01.png").toString());
+    private Image Image8 = new Image(getClass().getResource("/image/water01.png").toString());
+
     private ImageView background = new ImageView(Image1);
     private ImageView startPasAppuye = new ImageView(Image2);
     private ImageView startAppuye = new ImageView(Image3);
     private ImageView nomJeu = new ImageView(Image6);
     private ImageView quitPasAppuye = new ImageView(Image4);
     private ImageView quitAppuye = new ImageView(Image5);
+    private boolean start = false;
 
     private Stage stage;
     private EventManager ev;
 
-    private Controller controller = new Controller();
+    private Controller controller;
     private Grille grille;
 
     private Rectangle[] rectangles = new Rectangle[100];
 
     @Override
     public void start(Stage stage) {
-        this.stage = stage;
-        controller = new Controller();
-        this.grille = controller.getGrille();
-        displayMenu();
+        if (start) {
+            this.stage = stage;
+            controller = new Controller();
+            this.grille = controller.getGrille();
+            System.out.println(grille.toString());
+            displayGame();
+        }
+        else {
+            this.stage = stage;
+            displayMenu();
+        }
     }
 
     public void displayMenu(){
@@ -82,7 +94,7 @@ public class PageJeu extends Application {
         nomJeu.setLayoutY(150);
 
         startPasAppuye.setId("start");
-        nomJeu.setId("nomJeuu");
+        nomJeu.setId("nomJeu");
         quitPasAppuye.setId("quitter");
 
         ev = new EventManager(this);
@@ -91,7 +103,7 @@ public class PageJeu extends Application {
 
         root.getChildren().addAll(background, startPasAppuye, nomJeu, quitPasAppuye);
         this.scene = new Scene(root, 960, 490);
-        stage.setTitle("Page d'Acceuil");
+        stage.setTitle("Page d'Accueil");
         stage.setScene(this.scene);
         stage.show();
     }
@@ -99,41 +111,42 @@ public class PageJeu extends Application {
     public void displayGame() {
         this.stage.setWidth(500);
         this.stage.setHeight(535);
-       for (int i = 0; i < 10; i++) {
-           for (int j = 0; j < 10; j++) {
-               Secteur secteur = this.grille.getSecteur(i, j);
-               Rectangle rect = new Rectangle(50, 50);
-               rect.setOnMouseClicked(ev);
-               rectangles[i * 10 + j] = rect;
-               switch (secteur.toString()) {
-                   case "M":
-                       rect.setFill(Color.RED);
-                       break;
-                   case "E":
-                       rect.setFill(Color.LIGHTGREY);
-                       break;
-                   case "R":
-                       rect.setFill(Color.GREY);
-                       break;
-                   case "X":
-                       rect.setFill(Color.BLUE);
-                       break;
-                   default:
-                       rect.setFill(Color.GREEN);
-                       break;
-               }
-               rect.setX(i * 50);
-               rect.setY(j * 50);
-               root.getChildren().add(rect);
-           }
-       }
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                Secteur secteur = this.grille.getSecteur(i, j);
+                Rectangle rect = new Rectangle(50, 50);
+                rect.setOnMouseClicked(ev);
+                rectangles[i * 10 + j] = rect;
+                switch (secteur.toString()) {
+                    case " M":
+                        rect.setFill(Color.RED);
+                        break;
+                    case " E":
+                        rect.setFill(Color.LIGHTGREY);
+                        break;
+                    case "R ":
+                        rect.setFill(Color.GREY);
+                        break;
+                    case "XX":
+                        rect.setFill(new ImagePattern(Image8));
+                        break;
+                    default:
+                        rect.setFill(new ImagePattern(Image7));
+                        break;
+                }
+                rect.setX(j * 50);
+                rect.setY(i * 50);
+                root.getChildren().add(rect);
+            }
+        }
     }
 
     public void pressStart() {
         root.getChildren().remove(startPasAppuye);
         root.getChildren().add(startAppuye);
         root.getChildren().clear();
-        displayGame();
+        this.start = true;
+        start(stage);
     }
 
     public void pressQuit(){
@@ -142,25 +155,42 @@ public class PageJeu extends Application {
     }
 
     public void pressRobot(Rectangle r){
-        // On ouvre la fenetre d'information du robot
-        int x = (int) r.getX() / 50;
-        int y = (int) r.getY() / 50;
+        int y = (int) r.getX() / 50;
+        int x = (int) r.getY() / 50;
         Secteur secteur = this.grille.getSecteur(x, y);
         Robot[] robots = this.controller.getRobots();
         for (Robot robot : robots) {
             if (robot.getSecteur().equals(secteur)) {
-                PageRobot pageRobot = new PageRobot(robot, r);
+                PageRobot pageRobot = new PageRobot(robot, r, this.controller, this.rectangles);
                 pageRobot.show();
             }
         }
-        System.out.println("Robot");
     }
 
-    public void pressMine(){
+    public void pressMine(Rectangle r){
+        int y = (int) r.getX() / 50;
+        int x = (int) r.getY() / 50;
+        Secteur secteur = this.grille.getSecteur(x, y);
+        Mine[] mines = this.controller.getMines();
+        for (Mine mine : mines) {
+            if (mine.getSecteur().equals(secteur)) {
+                PageMine pageMine = new PageMine(mine, r);
+                pageMine.show();
+            }
+        }
 
     }
 
-    public void pressEntrepot() {
-
+    public void pressEntrepot(Rectangle r){
+        int y = (int) r.getX() / 50;
+        int x = (int) r.getY() / 50;
+        Secteur secteur = this.grille.getSecteur(x, y);
+        Entrepot[] entrepots = this.controller.getEntrepots();
+        for (Entrepot entrepot : entrepots) {
+            if (entrepot.getSecteur().equals(secteur)) {
+                PageEntrepot pageEntrepot = new PageEntrepot(entrepot, r);
+                pageEntrepot.show();
+            }
+        }
     }
 }

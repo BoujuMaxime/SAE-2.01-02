@@ -51,7 +51,7 @@ public class Grille {
 
         sb.append("+");
         for (int i = 0; i < taille; i++) {
-            sb.append("---+");
+            sb.append("----+");
         }
         sb.append("\n");
 
@@ -64,7 +64,7 @@ public class Grille {
 
             sb.append("+");
             for (int k = 0; k < taille; k++) {
-                sb.append("---+");
+                sb.append("----+");
             }
             sb.append("\n");
         }

@@ -2,6 +2,7 @@ module org.example.sae20102 {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.desktop;
+    requires jdk.xml.dom;
 
     exports org.example.sae20102.Vue;
 

@@ -86,16 +86,23 @@ public class Secteur {
 
     @Override
     public String toString(){
+        String str = "";
         if (cellules[0][0].equals("X")) {
-            return "X";
-        } else if (cellules[1][0].equals("R")) {
-            return "R";
+            str += "XX";
+        } else if (cellules[1][0].equals("R") && cellules[0][0].equals("M")) {
+            str += "RM";
+        } else if (cellules[1][0].equals("R") && cellules[0][0].equals("E")) {
+            str += "RE";
         } else if (cellules[0][0].equals("M")) {
-            return "M";
+            str += " M";
         } else if (cellules[0][0].equals("E")) {
-            return "E";
+            str += " E";
+        } else if (cellules[1][0].equals("R")) {
+            str += "R ";
         } else {
-            return " ";
+            str += "  ";
         }
+        return str;
+
     }
 }

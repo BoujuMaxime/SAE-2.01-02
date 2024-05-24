@@ -17,25 +17,31 @@ public class Robot {
         this.secteur = secteur;
     }
 
-    public void Fill(Mine mine) {
+    public boolean Fill(Mine mine) {
         if (this.nature.equals(mine.getNature())) {
             if (this.quantite < this.capacite) {
                 int quantite = Math.min(this.recolte, mine.getCapacite());
                 this.quantite += quantite;
                 mine.Extrate(quantite);
+                return true;
             }
         } else {
             System.out.println("Le robot ne peut pas transporter ce type de minerai");
         }
+        return false;
     }
 
-    public void Unload(Entrepot entrepot) {
+    public boolean Unload(Entrepot entrepot) {
         if (this.nature.equals(entrepot.getNature())) {
+            System.out.println("test");
             entrepot.Fill(this.quantite);
+            this.quantite = 0;
+            return true;
         }
         else {
             System.out.println("L'entrepot ne peut pas recevoir ce type de minerai");
         }
+        return false;
     }
 
     public int getQuantite() {
