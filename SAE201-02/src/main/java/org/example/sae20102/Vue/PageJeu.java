@@ -120,6 +120,8 @@ public class PageJeu extends Application {
     public void displayGame() {
         this.stage.setWidth(500);
         this.stage.setHeight(535);
+        this.stage.setResizable(false);
+        this.stage.setTitle("Jeu");
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
                 Secteur secteur = this.grille.getSecteur(i, j);

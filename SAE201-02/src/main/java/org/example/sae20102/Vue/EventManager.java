@@ -30,7 +30,6 @@ public class EventManager implements EventHandler {
              }
          }
          if (event.getSource() instanceof Rectangle) {
-             System.out.println("Rectangle");
              if (((Rectangle) event.getSource()).getFill() == p.ImagePattern4) {
                  p.pressRobot((Rectangle) event.getSource());
              } else if (((Rectangle) event.getSource()).getFill() == p.ImagePattern3) {
