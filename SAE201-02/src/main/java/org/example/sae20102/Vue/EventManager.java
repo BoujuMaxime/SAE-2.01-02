@@ -3,14 +3,19 @@ package org.example.sae20102.Vue;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
 import org.example.sae20102.Model.Robot;
 
+import java.util.Objects;
+
 public class EventManager implements EventHandler {
     PageJeu p;
+
     public EventManager(PageJeu p) {
         this.p = p;
     }
@@ -28,7 +33,7 @@ public class EventManager implements EventHandler {
              System.out.println("Rectangle");
              if (((Rectangle) event.getSource()).getFill() == Color.GREY) {
                  p.pressRobot((Rectangle) event.getSource());
-             } else if (((Rectangle) event.getSource()).getFill() == Color.LIGHTGREY) {
+             } else if (Objects.equals(((Rectangle) event.getSource()).getFill(), p.ImagePattern3)) {
                  p.pressEntrepot((Rectangle) event.getSource());
              } else if (((Rectangle) event.getSource()).getFill() == Color.RED) {
                  p.pressMine((Rectangle) event.getSource());

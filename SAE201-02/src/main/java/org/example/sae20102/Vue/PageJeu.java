@@ -29,6 +29,11 @@ public class PageJeu extends Application {
 
     private Image Image7 = new Image(getClass().getResource("/image/grass01.png").toString());
     private Image Image8 = new Image(getClass().getResource("/image/water01.png").toString());
+    private Image Image9 = new Image(getClass().getResource("/image/hut.png").toString());
+
+    ImagePattern ImagePattern1 = new ImagePattern(Image7);
+    ImagePattern ImagePattern2 = new ImagePattern(Image8);
+    ImagePattern ImagePattern3 = new ImagePattern(Image9);
 
     private ImageView background = new ImageView(Image1);
     private ImageView startPasAppuye = new ImageView(Image2);
@@ -122,16 +127,16 @@ public class PageJeu extends Application {
                         rect.setFill(Color.RED);
                         break;
                     case " E":
-                        rect.setFill(Color.LIGHTGREY);
+                        rect.setFill(ImagePattern3);
                         break;
-                    case "R ":
+                    case "R ", "RM", "RE":
                         rect.setFill(Color.GREY);
                         break;
                     case "XX":
-                        rect.setFill(new ImagePattern(Image8));
+                        rect.setFill(ImagePattern2);
                         break;
                     default:
-                        rect.setFill(new ImagePattern(Image7));
+                        rect.setFill(ImagePattern1);
                         break;
                 }
                 rect.setX(j * 50);
@@ -161,7 +166,7 @@ public class PageJeu extends Application {
         Robot[] robots = this.controller.getRobots();
         for (Robot robot : robots) {
             if (robot.getSecteur().equals(secteur)) {
-                PageRobot pageRobot = new PageRobot(robot, r, this.controller, this.rectangles);
+                PageRobot pageRobot = new PageRobot(robot, r, this.controller, this.rectangles, this);
                 pageRobot.show();
             }
         }

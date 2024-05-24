@@ -35,11 +35,10 @@ public class PageRobot extends Stage {
     private Button buttonDroite;
     private Button buttonRecolte;
     private Button buttonDepot;
+    private PageJeu pageJeu;
 
-    private Image Image1 = new Image(getClass().getResource("/image/grass01.png").toString());
-
-
-    public PageRobot(Robot robot, Rectangle rectangle, Controller controller, Rectangle[] rectangles) {
+    public PageRobot(Robot robot, Rectangle rectangle, Controller controller, Rectangle[] rectangles, PageJeu pageJeu) {
+        this.pageJeu = pageJeu;
         this.root = new Group();
         this.robot = robot;
         this.rectangle = rectangle;
@@ -176,10 +175,10 @@ public class PageRobot extends Stage {
                 this.rectangle.setFill(Color.RED);
                 break;
             case " E":
-                this.rectangle.setFill(Color.LIGHTGREY);
+                this.rectangle.setFill(pageJeu.ImagePattern3);
                 break;
             default:
-                this.rectangle.setFill(new ImagePattern(Image1));
+                this.rectangle.setFill(pageJeu.ImagePattern1);
                 break;
         }
     }
