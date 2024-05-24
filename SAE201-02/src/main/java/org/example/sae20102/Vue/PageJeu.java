@@ -7,7 +7,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.ImagePattern;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 import org.example.sae20102.Model.*;
@@ -32,12 +31,16 @@ public class PageJeu extends Application {
     private Image Image9 = new Image(getClass().getResource("/image/hut.png").toString());
     private Image Image10 = new Image(getClass().getResource("/image/robot01.png").toString());
     private Image Image11 = new Image(getClass().getResource("/image/mine01.png").toString());
+    private Image Image12 = new Image(getClass().getResource("/image/robot02.png").toString());
+    private Image Image13 = new Image(getClass().getResource("/image/robot03.png").toString());
 
     ImagePattern ImagePattern1 = new ImagePattern(Image7);
     ImagePattern ImagePattern2 = new ImagePattern(Image8);
     ImagePattern ImagePattern3 = new ImagePattern(Image9);
     ImagePattern ImagePattern4 = new ImagePattern(Image10);
     ImagePattern ImagePattern5 = new ImagePattern(Image11);
+    ImagePattern ImagePattern6 = new ImagePattern(Image12);
+    ImagePattern ImagePattern7 = new ImagePattern(Image13);
 
     private ImageView background = new ImageView(Image1);
     private ImageView startPasAppuye = new ImageView(Image2);
@@ -135,8 +138,14 @@ public class PageJeu extends Application {
                     case " E":
                         rect.setFill(ImagePattern3);
                         break;
-                    case "R ", "RM", "RE":
+                    case "R ":
                         rect.setFill(ImagePattern4);
+                        break;
+                    case "RE":
+                        rect.setFill(ImagePattern6);
+                        break;
+                    case "RM":
+                        rect.setFill(ImagePattern7);
                         break;
                     case "XX":
                         rect.setFill(ImagePattern2);
