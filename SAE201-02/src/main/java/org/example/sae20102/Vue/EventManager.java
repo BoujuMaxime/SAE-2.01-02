@@ -31,11 +31,11 @@ public class EventManager implements EventHandler {
          }
          if (event.getSource() instanceof Rectangle) {
              System.out.println("Rectangle");
-             if (((Rectangle) event.getSource()).getFill() == Color.GREY) {
+             if (((Rectangle) event.getSource()).getFill() == p.ImagePattern4) {
                  p.pressRobot((Rectangle) event.getSource());
-             } else if (Objects.equals(((Rectangle) event.getSource()).getFill(), p.ImagePattern3)) {
+             } else if (((Rectangle) event.getSource()).getFill() == p.ImagePattern3) {
                  p.pressEntrepot((Rectangle) event.getSource());
-             } else if (((Rectangle) event.getSource()).getFill() == Color.RED) {
+             } else if (((Rectangle) event.getSource()).getFill() == p.ImagePattern5) {
                  p.pressMine((Rectangle) event.getSource());
              }
          }

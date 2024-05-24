@@ -30,10 +30,14 @@ public class PageJeu extends Application {
     private Image Image7 = new Image(getClass().getResource("/image/grass01.png").toString());
     private Image Image8 = new Image(getClass().getResource("/image/water01.png").toString());
     private Image Image9 = new Image(getClass().getResource("/image/hut.png").toString());
+    private Image Image10 = new Image(getClass().getResource("/image/robot01.png").toString());
+    private Image Image11 = new Image(getClass().getResource("/image/mine01.png").toString());
 
     ImagePattern ImagePattern1 = new ImagePattern(Image7);
     ImagePattern ImagePattern2 = new ImagePattern(Image8);
     ImagePattern ImagePattern3 = new ImagePattern(Image9);
+    ImagePattern ImagePattern4 = new ImagePattern(Image10);
+    ImagePattern ImagePattern5 = new ImagePattern(Image11);
 
     private ImageView background = new ImageView(Image1);
     private ImageView startPasAppuye = new ImageView(Image2);
@@ -124,13 +128,13 @@ public class PageJeu extends Application {
                 rectangles[i * 10 + j] = rect;
                 switch (secteur.toString()) {
                     case " M":
-                        rect.setFill(Color.RED);
+                        rect.setFill(ImagePattern5);
                         break;
                     case " E":
                         rect.setFill(ImagePattern3);
                         break;
                     case "R ", "RM", "RE":
-                        rect.setFill(Color.GREY);
+                        rect.setFill(ImagePattern4);
                         break;
                     case "XX":
                         rect.setFill(ImagePattern2);

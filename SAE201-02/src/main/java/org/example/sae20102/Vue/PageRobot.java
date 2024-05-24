@@ -1,12 +1,9 @@
 package org.example.sae20102.Vue;
 
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.ImagePattern;
 import javafx.stage.Stage;
 import javafx.scene.Group;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.control.Label;
@@ -86,7 +83,7 @@ public class PageRobot extends Stage {
                 for (Rectangle rect : this.rectangles) {
                     if (rect.getX() == this.rectangle.getX() && rect.getY() == this.rectangle.getY() - 50) {
                         this.rectangle = rect;
-                        this.rectangle.setFill(Color.GREY);
+                        this.rectangle.setFill(pageJeu.ImagePattern4);
                         System.out.println(this.controller.getGrille().toString());
                         break;
                     }
@@ -101,7 +98,7 @@ public class PageRobot extends Stage {
                 for (Rectangle rect : this.rectangles) {
                     if (rect.getX() == this.rectangle.getX() && rect.getY() == this.rectangle.getY() + 50) {
                         this.rectangle = rect;
-                        this.rectangle.setFill(Color.GREY);
+                        this.rectangle.setFill(pageJeu.ImagePattern4);
                         System.out.println(this.controller.getGrille().toString());
                         break;
                     }
@@ -116,7 +113,7 @@ public class PageRobot extends Stage {
                 for (Rectangle rect : this.rectangles) {
                     if (rect.getX() == this.rectangle.getX() - 50 && rect.getY() == this.rectangle.getY()) {
                         this.rectangle = rect;
-                        this.rectangle.setFill(Color.GREY);
+                        this.rectangle.setFill(pageJeu.ImagePattern4);
                         System.out.println(this.controller.getGrille().toString());
                         break;
                     }
@@ -131,7 +128,7 @@ public class PageRobot extends Stage {
                 for (Rectangle rect : this.rectangles) {
                     if (rect.getX() == this.rectangle.getX() + 50 && rect.getY() == this.rectangle.getY()) {
                         this.rectangle = rect;
-                        this.rectangle.setFill(Color.GREY);
+                        this.rectangle.setFill(pageJeu.ImagePattern4);
                         System.out.println(this.controller.getGrille().toString());
                         break;
                     }
@@ -172,7 +169,7 @@ public class PageRobot extends Stage {
     public void FillRectangle(Secteur secteur){
         switch (secteur.toString()) {
             case " M":
-                this.rectangle.setFill(Color.RED);
+                this.rectangle.setFill(pageJeu.ImagePattern5);
                 break;
             case " E":
                 this.rectangle.setFill(pageJeu.ImagePattern3);
