@@ -1,4 +1,6 @@
 MALIK Antoine
 HADDAR Bilal
 BOUJU Maxime
-M'BOUEYA Nathan
+M'BOUEYA Nathan 
+
+N.B: Au cours de la SAE nous avons subit énormément de bugs "Github" et "IntelliJ Idea" au niveau de nos commits et push, ce qui n'a malheureusement pas permis à tous les membres du groupe d'effectuer au mieux tout les push dont ils étaient propriétaires. Pour remédier à cela nous avons alors travailler durant plusieurs séances de SAE sur un seul et même pc personnel.
