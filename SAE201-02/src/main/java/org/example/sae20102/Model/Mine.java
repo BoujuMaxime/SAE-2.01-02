@@ -14,10 +14,12 @@ public class Mine {
     }
 
 
-    public void Extrate(int quantite) {
+    public boolean Extrate(int quantite) {
         if (quantite <= capacite) {
             capacite -= quantite;
+            return true;
         }
+        return false;
     }
 
     public TypeM getNature(){
@@ -34,5 +36,9 @@ public class Mine {
 
     public Secteur getSecteur(){
         return this.secteur;
+    }
+
+    public void setCapacite(int capacite) {
+        this.capacite = capacite;
     }
 }

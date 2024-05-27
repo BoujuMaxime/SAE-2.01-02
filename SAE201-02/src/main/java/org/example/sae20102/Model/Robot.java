@@ -18,12 +18,12 @@ public class Robot {
     }
 
     public boolean Fill(Mine mine) {
-        if (this.nature.equals(mine.getNature())) {
-            if (this.quantite < this.capacite) {
+        if (this.nature.equals(mine.getNature())) { //
+            if (this.quantite < this.capacite) { // Robot non plein
                 int quantite = Math.min(this.recolte, mine.getCapacite());
+                quantite = Math.min(quantite, this.capacite - this.quantite);
                 this.quantite += quantite;
-                mine.Extrate(quantite);
-                return true;
+                return mine.Extrate(quantite);
             }
         } else {
             System.out.println("Le robot ne peut pas transporter ce type de minerai");
@@ -66,6 +66,10 @@ public class Robot {
 
     public int getRecolte(){
         return this.recolte;
+    }
+
+    public void setQuantite(int quantite){
+        this.quantite = quantite;
     }
 
     public void setSecteur(Secteur secteur){

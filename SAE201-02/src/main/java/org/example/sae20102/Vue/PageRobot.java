@@ -174,6 +174,12 @@ public class PageRobot extends Stage {
             case " E":
                 this.rectangle.setFill(pageJeu.ImagePattern3);
                 break;
+            case "RE":
+                this.rectangle.setFill(pageJeu.ImagePattern6);
+                break;
+            case "RM":
+                this.rectangle.setFill(pageJeu.ImagePattern7);
+                break;
             default:
                 this.rectangle.setFill(pageJeu.ImagePattern1);
                 break;

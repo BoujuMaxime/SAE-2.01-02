@@ -207,4 +207,16 @@ public class Controller  {
     public Mine[] getMines() {
         return mines;
     }
+
+    public int getNbMines() {
+        return nbMines;
+    }
+
+    public int getNbEntrepots() {
+        return nbEntrepots;
+    }
+
+    public int getNbRobots() {
+        return nbRobots;
+    }
 }
