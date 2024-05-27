@@ -83,7 +83,7 @@ public class PageRobot extends Stage {
                 for (Rectangle rect : this.rectangles) {
                     if (rect.getX() == this.rectangle.getX() && rect.getY() == this.rectangle.getY() - 50) {
                         this.rectangle = rect;
-                        this.rectangle.setFill(pageJeu.ImagePattern4);
+                        FillRectangle(this.robot.getSecteur());
                         System.out.println(this.controller.getGrille().toString());
                         break;
                     }
@@ -98,7 +98,7 @@ public class PageRobot extends Stage {
                 for (Rectangle rect : this.rectangles) {
                     if (rect.getX() == this.rectangle.getX() && rect.getY() == this.rectangle.getY() + 50) {
                         this.rectangle = rect;
-                        this.rectangle.setFill(pageJeu.ImagePattern4);
+                        FillRectangle(this.robot.getSecteur());
                         System.out.println(this.controller.getGrille().toString());
                         break;
                     }
@@ -113,7 +113,7 @@ public class PageRobot extends Stage {
                 for (Rectangle rect : this.rectangles) {
                     if (rect.getX() == this.rectangle.getX() - 50 && rect.getY() == this.rectangle.getY()) {
                         this.rectangle = rect;
-                        this.rectangle.setFill(pageJeu.ImagePattern4);
+                        FillRectangle(this.robot.getSecteur());
                         System.out.println(this.controller.getGrille().toString());
                         break;
                     }
@@ -128,7 +128,7 @@ public class PageRobot extends Stage {
                 for (Rectangle rect : this.rectangles) {
                     if (rect.getX() == this.rectangle.getX() + 50 && rect.getY() == this.rectangle.getY()) {
                         this.rectangle = rect;
-                        this.rectangle.setFill(pageJeu.ImagePattern4);
+                        FillRectangle(this.robot.getSecteur());
                         System.out.println(this.controller.getGrille().toString());
                         break;
                     }
@@ -179,6 +179,9 @@ public class PageRobot extends Stage {
                 break;
             case "RM":
                 this.rectangle.setFill(pageJeu.ImagePattern7);
+                break;
+            case "R ":
+                this.rectangle.setFill(pageJeu.ImagePattern4);
                 break;
             default:
                 this.rectangle.setFill(pageJeu.ImagePattern1);
