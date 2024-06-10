@@ -1,14 +1,18 @@
 package org.example.sae20102.Vue;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.ImagePattern;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
 
+import javafx.util.Duration;
 import org.example.sae20102.Model.*;
 import org.example.sae20102.Controller;
 
@@ -48,7 +52,9 @@ public class PageJeu extends Application {
     private ImageView nomJeu = new ImageView(Image6);
     private ImageView quitPasAppuye = new ImageView(Image4);
     private ImageView quitAppuye = new ImageView(Image5);
+
     private boolean start = false;
+    private boolean auto = false;
 
     private Stage stage;
     private EventManager ev;
@@ -121,9 +127,8 @@ public class PageJeu extends Application {
     }
 
     public void displayGame() {
-        this.stage.setWidth(500);
-        this.stage.setHeight(535);
-        this.stage.setResizable(false);
+        this.stage.setWidth(510);
+        this.stage.setHeight(555);
         this.stage.setTitle("Jeu");
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
@@ -159,6 +164,21 @@ public class PageJeu extends Application {
                 root.getChildren().add(rect);
             }
         }
+        Button autoButton = new Button("auto");
+        autoButton.setLayoutX(0);
+        autoButton.setLayoutY(500);
+        autoButton.setOnMouseClicked(ev);
+        root.getChildren().add(autoButton);
+    }
+
+
+    public void play() {
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+            this.grille = controller.play();
+            displayGame();
+        }));
+        timeline.setCycleCount(100);
+        timeline.play();
     }
 
     public void pressStart() {

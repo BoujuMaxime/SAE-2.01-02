@@ -219,4 +219,33 @@ public class Controller  {
     public int getNbRobots() {
         return nbRobots;
     }
+
+    public Grille play() {
+        for (Robot robot : robots) {
+            String choice = CerveauRobot.getChoiceRobot(robot, grille, mines, entrepots);
+            switch (choice) {
+                case "Fill":
+                    for (Mine mine : mines) {
+                        if (mine.getSecteur().equals(robot.getSecteur())) {
+                            FillRobot(robot, mine);
+                        }
+                    }
+                    break;
+                case "Unload":
+                    for (Entrepot entrepot : entrepots) {
+                        if (entrepot.getSecteur().equals(robot.getSecteur())) {
+                            UnloadRobot(robot, entrepot);
+                        }
+                    }
+                    break;
+                case "Move":
+                    String direction = CerveauRobot.getDirectionRobot(robot, grille, mines, entrepots);
+                    MoveRobot(robot, direction);
+                    break;
+            }
+            System.out.println(grille);
+            System.out.println("Robot " + robot.getNumR() + " Choice : " + choice);
+        }
+        return grille;
+    }
 }

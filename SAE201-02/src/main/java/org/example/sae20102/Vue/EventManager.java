@@ -38,5 +38,10 @@ public class EventManager implements EventHandler {
                  p.pressMine((Rectangle) event.getSource());
              }
          }
+        if (event.getSource() instanceof Button) {
+            if (((Button) event.getSource()).getText().equals("auto")) {
+                p.play();
+            }
+        }
     }
 }
