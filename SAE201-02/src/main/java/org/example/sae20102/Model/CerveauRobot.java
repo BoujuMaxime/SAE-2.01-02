@@ -36,7 +36,7 @@ public class CerveauRobot {
     }
 
     public static List<Secteur> dijkstra(Robot robot, Grille grille, boolean findMine, Mine[] mines, Entrepot[] entrepots) {
-        // Initialization of the distance array with maximum values
+        // Initialization of the distance array full of maximum values
         int[][] dist = new int[10][10];
         for (int[] row : dist) {
             Arrays.fill(row, Integer.MAX_VALUE);
@@ -58,7 +58,8 @@ public class CerveauRobot {
             // For each neighbor of the current sector
             for (Secteur neighbor : grille.getNeighbors(current)) {
                 // If the neighbor is the target sector or an accessible sector
-                if (findMine && neighbor == findNearestMine(robot, mines).getSecteur() || !findMine && neighbor == findNearestEntrepot(robot, entrepots).getSecteur() || (neighbor != null && !neighbor.getCellule(0, 0).equals("X") && !neighbor.getCellule(1, 0).equals("R"))) {
+                if (findMine && neighbor == findNearestMine(robot, mines).getSecteur() || !findMine && neighbor == findNearestEntrepot(robot, entrepots).getSecteur()
+                        || (neighbor != null && !neighbor.getCellule(0, 0).equals("X") && !neighbor.getCellule(1, 0).equals("R"))) {
                     // Calculate the alternative distance to the neighbor through the current sector
                     int alt = dist[current.getLigne()][current.getColonne()] + 1;
                     // If the alternative distance is shorter

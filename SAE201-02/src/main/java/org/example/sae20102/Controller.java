@@ -12,7 +12,7 @@ public class Controller  {
     private  Entrepot[] entrepots;
     private  Mine[] mines;
     private  Robot[] robots;
-    private Grille grille;
+    private static Grille grille;
 
 
     public Controller() {
@@ -43,6 +43,10 @@ public class Controller  {
         grille = createMines(mines, grille, nbMines);
         grille = createEntrepots(entrepots, grille, nbEntrepots);
         grille = createRobots(robots, grille, nbRobots);
+
+        for (Robot robot : robots) {
+           decouvrir(robot.getSecteur());
+        }
 
         return grille;
     }
@@ -247,5 +251,12 @@ public class Controller  {
             System.out.println("Robot " + robot.getNumR() + " Choice : " + choice);
         }
         return grille;
+    }
+
+    public static void decouvrir(Secteur secteur) {
+        secteur.setConnu();
+        for (Secteur neighbor : grille.getNeighbors(secteur)) {
+            neighbor.setConnu();
+        }
     }
 }

@@ -37,6 +37,7 @@ public class PageJeu extends Application {
     private Image Image11 = new Image(getClass().getResource("/image/mine01.png").toString());
     private Image Image12 = new Image(getClass().getResource("/image/robot02.png").toString());
     private Image Image13 = new Image(getClass().getResource("/image/robot03.png").toString());
+    private Image Image14 = new Image(getClass().getResource("/image/brouillard.png").toString());
 
     ImagePattern ImagePattern1 = new ImagePattern(Image7);
     ImagePattern ImagePattern2 = new ImagePattern(Image8);

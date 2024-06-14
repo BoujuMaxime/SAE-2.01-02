@@ -4,11 +4,13 @@ public class Secteur {
     private int ligne;
     private int colonne;
     private String[][] cellules;
+    private boolean connu;
 
     public Secteur(int ligne, int colonne) {
         this.ligne = ligne;
         this.colonne = colonne;
         this.cellules = new String[2][2];
+        this.connu = false;
         this.createSecteur();
     }
 
@@ -65,6 +67,10 @@ public class Secteur {
         cellules[1][0] = "R";
         cellules[1][1] = String.valueOf(robot.getNumR());
         robot.setSecteur(this);
+    }
+
+    public void setConnu() {
+        this.connu = true;
     }
 
     public void removeRobot() {
