@@ -54,7 +54,6 @@ public class PageJeu extends Application {
     private ImageView quitAppuye = new ImageView(Image5);
 
     private boolean start = false;
-    private boolean auto = false;
 
     private Stage stage;
     private EventManager ev;
@@ -173,14 +172,39 @@ public class PageJeu extends Application {
 
 
     public void play() {
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.1), event -> {
-            this.grille = controller.play();
-            displayGame();
-        }));
-        timeline.setCycleCount(1000000);
-        timeline.play();
-    }
+        // Declare the timeline variable
+        final Timeline[] timelineHolder = new Timeline[1];
 
+        // Create the timeline
+        timelineHolder[0] = new Timeline(new KeyFrame(Duration.seconds(0.15), event -> {
+            // Update the game state
+            this.grille = controller.play();
+
+            // Display the updated game state
+            displayGame();
+
+            // Check if all mines are empty
+            Mine[] mines = this.controller.getMines();
+            boolean allMinesEmpty = true;
+            for (Mine mine : mines) {
+                if (mine.getCapacite() > 0) {
+                    allMinesEmpty = false;
+                    break;
+                }
+            }
+
+            // Stop the timeline if all mines are empty
+            if (allMinesEmpty) {
+                timelineHolder[0].stop();
+            }
+        }));
+
+        // Set the timeline to repeat 10000 times
+        timelineHolder[0].setCycleCount(10000);
+
+        // Start the timeline
+        timelineHolder[0].play();
+    }
     public void pressStart() {
         root.getChildren().remove(startPasAppuye);
         root.getChildren().add(startAppuye);
@@ -232,5 +256,9 @@ public class PageJeu extends Application {
                 pageEntrepot.show();
             }
         }
+    }
+
+    public static void main(String[] args) {
+        launch(args);
     }
 }

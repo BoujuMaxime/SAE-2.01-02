@@ -29,7 +29,7 @@ public class Controller  {
     private static Grille createGrille(Robot[] robots, Mine[] mines, Entrepot[] entrepots) {
         System.out.println("Création de la grille");
         Grille grille = new Grille();
-        int nbEau = (int)(Math.random() * 10);
+        int nbEau = 1 + (int)(Math.random() * 9);
         int nbMines = mines.length;
         int nbEntrepots = entrepots.length;
         int nbRobots = robots.length;

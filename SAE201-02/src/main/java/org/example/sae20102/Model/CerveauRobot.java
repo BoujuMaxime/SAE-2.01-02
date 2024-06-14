@@ -36,29 +36,39 @@ public class CerveauRobot {
     }
 
     public static List<Secteur> dijkstra(Robot robot, Grille grille, boolean findMine, Mine[] mines, Entrepot[] entrepots) {
-        // Initialization
+        // Initialization of the distance array with maximum values
         int[][] dist = new int[10][10];
         for (int[] row : dist) {
             Arrays.fill(row, Integer.MAX_VALUE);
         }
+        // Set the distance from the robot to itself as 0
         dist[robot.getSecteur().getLigne()][robot.getSecteur().getColonne()] = 0;
 
+        // Priority queue to hold the sectors to be visited, sorted by their distance from the robot
         PriorityQueue<Secteur> queue = new PriorityQueue<>(Comparator.comparingInt(s -> dist[s.getLigne()][s.getColonne()]));
         queue.add(robot.getSecteur());
 
+        // Map to hold the shortest path from the robot to each sector
         Map<Secteur, Secteur> pathMap = new HashMap<>();
 
+        // While there are sectors to be visited
         while (!queue.isEmpty()) {
             Secteur current = queue.poll();
 
+            // For each neighbor of the current sector
             for (Secteur neighbor : grille.getNeighbors(current)) {
-                if (neighbor != null && !neighbor.getCellule(0, 0).equals("X") && !neighbor.getCellule(1, 0).equals("R")) {
+                // If the neighbor is the target sector or an accessible sector
+                if (findMine && neighbor == findNearestMine(robot, mines).getSecteur() || !findMine && neighbor == findNearestEntrepot(robot, entrepots).getSecteur() || (neighbor != null && !neighbor.getCellule(0, 0).equals("X") && !neighbor.getCellule(1, 0).equals("R"))) {
+                    // Calculate the alternative distance to the neighbor through the current sector
                     int alt = dist[current.getLigne()][current.getColonne()] + 1;
+                    // If the alternative distance is shorter
                     if (alt < dist[neighbor.getLigne()][neighbor.getColonne()]) {
+                        // Update the shortest distance and the path
                         dist[neighbor.getLigne()][neighbor.getColonne()] = alt;
                         queue.add(neighbor);
                         pathMap.put(neighbor, current);
 
+                        // If the neighbor is the target sector, return the path
                         if (findMine && neighbor == findNearestMine(robot, mines).getSecteur() || !findMine && neighbor == findNearestEntrepot(robot, entrepots).getSecteur()) {
                             List<Secteur> path = new ArrayList<>();
                             for (Secteur at = neighbor; at != null; at = pathMap.get(at)) {
@@ -71,7 +81,7 @@ public class CerveauRobot {
                 }
             }
         }
-
+        // If no path is found, return null
         return null;
     }
 
@@ -89,7 +99,8 @@ public class CerveauRobot {
                 return "D";
             }
         }
-        return "Error";
+        // retourner un random si le robot est bloqué entre H et B ou G et D
+        return new Random().nextBoolean() ? "H" : "G";
     }
 
 
