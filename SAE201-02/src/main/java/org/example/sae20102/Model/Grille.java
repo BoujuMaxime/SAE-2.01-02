@@ -75,4 +75,25 @@ public class Grille {
     public double getTaille() {
         return taille;
     }
+
+
+    public Secteur[] getNeighbors(Secteur current) {
+        // this method returns the neighbors of a given secteur
+        int x = current.getLigne();
+        int y = current.getColonne();
+        Secteur[] neighbors = new Secteur[4];
+        if (x > 0) {
+            neighbors[0] = this.secteurs[x - 1][y];
+        }
+        if (x < taille - 1) {
+            neighbors[1] = this.secteurs[x + 1][y];
+        }
+        if (y > 0) {
+            neighbors[2] = this.secteurs[x][y - 1];
+        }
+        if (y < taille - 1) {
+            neighbors[3] = this.secteurs[x][y + 1];
+        }
+        return neighbors;
+    }
 }

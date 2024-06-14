@@ -173,11 +173,11 @@ public class PageJeu extends Application {
 
 
     public void play() {
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.1), event -> {
             this.grille = controller.play();
             displayGame();
         }));
-        timeline.setCycleCount(100);
+        timeline.setCycleCount(1000000);
         timeline.play();
     }
 
