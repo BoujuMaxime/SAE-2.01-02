@@ -12,7 +12,7 @@ public class Controller  {
     private  Entrepot[] entrepots;
     private  Mine[] mines;
     private  Robot[] robots;
-    private static Grille grille;
+    private Grille grille;
 
 
     public Controller() {
@@ -45,7 +45,7 @@ public class Controller  {
         grille = createRobots(robots, grille, nbRobots);
 
         for (Robot robot : robots) {
-           decouvrir(robot.getSecteur());
+            decouvrir(grille, robot);
         }
 
         return grille;
@@ -155,6 +155,7 @@ public class Controller  {
                 if (x > 0) {
                     if (Objects.equals(grille.getSecteur(x - 1, y).getCellule(1, 0), " ")) {
                         grille.moveRobot(x, y, x - 1, y, robot);
+                        decouvrir(grille, robot);
                         return true;
                     }
                 }
@@ -163,14 +164,7 @@ public class Controller  {
                 if (x < 9) {
                     if (Objects.equals(grille.getSecteur(x + 1, y).getCellule(1, 0), " ")) {
                         grille.moveRobot(x, y, x + 1, y, robot);
-                        return true;
-                    }
-                }
-                break;
-            case "D":
-                if (y < 9) {
-                    if (Objects.equals(grille.getSecteur(x, y + 1).getCellule(1, 0), " ")) {
-                        grille.moveRobot(x, y, x, y + 1, robot);
+                        decouvrir(grille, robot);
                         return true;
                     }
                 }
@@ -179,12 +173,21 @@ public class Controller  {
                 if (y > 0) {
                     if (Objects.equals(grille.getSecteur(x, y - 1).getCellule(1, 0), " ")) {
                         grille.moveRobot(x, y, x, y - 1, robot);
+                        decouvrir(grille, robot);
+                        return true;
+                    }
+                }
+                break;
+            case "D":
+                if (y < 9) {
+                    if (Objects.equals(grille.getSecteur(x, y + 1).getCellule(1, 0), " ")) {
+                        grille.moveRobot(x, y, x, y + 1, robot);
+                        decouvrir(grille, robot);
                         return true;
                     }
                 }
                 break;
         }
-
         return false;
     }
 
@@ -225,6 +228,7 @@ public class Controller  {
     }
 
     public Grille play() {
+        String direction;
         for (Robot robot : robots) {
             String choice = CerveauRobot.getChoiceRobot(robot, grille, mines, entrepots);
             switch (choice) {
@@ -243,20 +247,24 @@ public class Controller  {
                     }
                     break;
                 case "Move":
-                    String direction = CerveauRobot.getDirectionRobot(robot, grille, mines, entrepots);
+                    direction = CerveauRobot.getDirectionRobot(robot, grille, mines, entrepots);
+                    MoveRobot(robot, direction);
+                    break;
+                case "Discover":
+                    direction = CerveauRobot.Discover(robot, grille, mines, entrepots);
                     MoveRobot(robot, direction);
                     break;
             }
-            System.out.println(grille);
-            System.out.println("Robot " + robot.getNumR() + " Choice : " + choice);
         }
         return grille;
     }
 
-    public static void decouvrir(Secteur secteur) {
+    public static void decouvrir(Grille grille, Robot robot) {
+        Secteur secteur = robot.getSecteur();
         secteur.setConnu();
         for (Secteur neighbor : grille.getNeighbors(secteur)) {
-            neighbor.setConnu();
+            if (neighbor != null)
+                neighbor.setConnu();
         }
     }
 }

@@ -38,6 +38,7 @@ public class PageJeu extends Application {
     private Image Image12 = new Image(getClass().getResource("/image/robot02.png").toString());
     private Image Image13 = new Image(getClass().getResource("/image/robot03.png").toString());
     private Image Image14 = new Image(getClass().getResource("/image/brouillard.png").toString());
+    private Image Image15 = new Image(getClass().getResource("/image/Dijkstra.png").toString());
 
     ImagePattern ImagePattern1 = new ImagePattern(Image7);
     ImagePattern ImagePattern2 = new ImagePattern(Image8);
@@ -46,6 +47,7 @@ public class PageJeu extends Application {
     ImagePattern ImagePattern5 = new ImagePattern(Image11);
     ImagePattern ImagePattern6 = new ImagePattern(Image12);
     ImagePattern ImagePattern7 = new ImagePattern(Image13);
+    ImagePattern ImagePattern8 = new ImagePattern(Image14);
 
     private ImageView background = new ImageView(Image1);
     private ImageView startPasAppuye = new ImageView(Image2);
@@ -53,6 +55,7 @@ public class PageJeu extends Application {
     private ImageView nomJeu = new ImageView(Image6);
     private ImageView quitPasAppuye = new ImageView(Image4);
     private ImageView quitAppuye = new ImageView(Image5);
+    private ImageView dijkstra = new ImageView(Image15);
 
     private boolean start = false;
 
@@ -70,7 +73,6 @@ public class PageJeu extends Application {
             this.stage = stage;
             controller = new Controller();
             this.grille = controller.getGrille();
-            System.out.println(grille.toString());
             displayGame();
         }
         else {
@@ -90,23 +92,17 @@ public class PageJeu extends Application {
         startPasAppuye.setLayoutY(270);
         startPasAppuye.setPreserveRatio(true);
 
-        startAppuye.setFitWidth(180);
-        startAppuye.setFitHeight(75);
-        startAppuye.setLayoutX(412);
-        startAppuye.setLayoutY(275);
-        startAppuye.setPreserveRatio(true);
-
         quitPasAppuye.setFitWidth(150);
         quitPasAppuye.setFitHeight(45);
         quitPasAppuye.setLayoutX(433);
-        quitPasAppuye.setLayoutY(350);
+        quitPasAppuye.setLayoutY(410);
         quitPasAppuye.setPreserveRatio(true);
 
-        quitAppuye.setFitWidth(150);
-        quitAppuye.setFitHeight(45);
-        quitAppuye.setLayoutX(433);
-        quitAppuye.setLayoutY(350);
-        quitAppuye.setPreserveRatio(true);
+        dijkstra.setFitWidth(180);
+        dijkstra.setFitHeight(75);
+        dijkstra.setLayoutX(412);
+        dijkstra.setLayoutY(340);
+        dijkstra.setPreserveRatio(true);
 
         nomJeu.setLayoutX(180);
         nomJeu.setLayoutY(150);
@@ -114,12 +110,14 @@ public class PageJeu extends Application {
         startPasAppuye.setId("start");
         nomJeu.setId("nomJeu");
         quitPasAppuye.setId("quitter");
+        dijkstra.setId("dijkstra");
 
         ev = new EventManager(this);
         startPasAppuye.setOnMouseClicked(ev);
         quitPasAppuye.setOnMouseClicked(ev);
+        dijkstra.setOnMouseClicked(ev);
 
-        root.getChildren().addAll(background, startPasAppuye, nomJeu, quitPasAppuye);
+        root.getChildren().addAll(background, startPasAppuye, nomJeu, dijkstra,  quitPasAppuye);
         this.scene = new Scene(root, 960, 490);
         stage.setTitle("Page d'Accueil");
         stage.setScene(this.scene);
@@ -128,7 +126,7 @@ public class PageJeu extends Application {
 
     public void displayGame() {
         this.stage.setWidth(510);
-        this.stage.setHeight(555);
+        this.stage.setHeight(535);
         this.stage.setTitle("Jeu");
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
@@ -159,16 +157,14 @@ public class PageJeu extends Application {
                         rect.setFill(ImagePattern1);
                         break;
                 }
+                if (!secteur.estConnu()) {
+                    rect.setFill(ImagePattern8);
+                }
                 rect.setX(j * 50);
                 rect.setY(i * 50);
                 root.getChildren().add(rect);
             }
         }
-        Button autoButton = new Button("auto");
-        autoButton.setLayoutX(0);
-        autoButton.setLayoutY(500);
-        autoButton.setOnMouseClicked(ev);
-        root.getChildren().add(autoButton);
     }
 
 

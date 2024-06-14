@@ -69,6 +69,10 @@ public class Secteur {
         robot.setSecteur(this);
     }
 
+    public boolean estConnu() {
+        return this.connu;
+    }
+
     public void setConnu() {
         this.connu = true;
     }

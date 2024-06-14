@@ -16,7 +16,11 @@ public class CerveauRobot {
         Mine nearestMine = findNearestMine(robot, mines);
         Entrepot nearestEntrepot = findNearestEntrepot(robot, entrepots);
         if (nearestMine != null && nearestEntrepot != null) {
-            if (robot.getQuantite() < robot.getCapacite() && nearestMine.getCapacite() > 0) { // Robot empty and mine not empty
+            // Si des case ne sont pas encore connues, on les découvre
+            if (!grille.estConnu(nearestMine.getSecteur()) || !grille.estConnu(nearestEntrepot.getSecteur())) {
+                return "Discover";
+            }
+            else if (robot.getQuantite() < robot.getCapacite() && nearestMine.getCapacite() > 0) { // Robot empty and mine not empty
                 // If is already in a "Mine" of the same type
                 if (robot.getSecteur().equals(nearestMine.getSecteur())) {
                     return "Fill";
@@ -32,6 +36,7 @@ public class CerveauRobot {
                 }
             }
         }
+
         return "Error";
     }
 
@@ -104,6 +109,42 @@ public class CerveauRobot {
         return new Random().nextBoolean() ? "H" : "G";
     }
 
+    public static String Discover(Robot robot, Grille grille, Mine[] mines, Entrepot[] entrepots) {
+        if (getDirectionToUndiscovered(robot, grille) != null) {
+            return getDirectionToUndiscovered(robot, grille);
+        }
+
+        Random rand = new Random();
+        switch(rand.nextInt(4)) {
+            case 0:
+                return "H";
+            case 1:
+                return "B";
+            case 2:
+                return "G";
+            default:
+                return "D";
+        }
+    }
+
+    public static String getDirectionToUndiscovered(Robot robot, Grille grille) {
+        Secteur current = robot.getSecteur();
+        Secteur[] neighbors = grille.getNeighbors(current);
+        for (Secteur neighbor : neighbors) {
+            if (neighbor != null && !grille.estConnu(neighbor)) {
+                if (neighbor.getLigne() < current.getLigne()) {
+                    return "H";
+                } else if (neighbor.getLigne() > current.getLigne()) {
+                    return "B";
+                } else if (neighbor.getColonne() < current.getColonne()) {
+                    return "G";
+                } else if (neighbor.getColonne() > current.getColonne()) {
+                    return "D";
+                }
+            }
+        }
+        return null;
+    }
 
     private static Entrepot findNearestEntrepot(Robot robot, Entrepot[] entrepots) {
         int minDist = Integer.MAX_VALUE;

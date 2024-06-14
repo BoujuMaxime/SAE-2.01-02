@@ -79,60 +79,28 @@ public class PageRobot extends Stage {
         this.buttonHaut.setOnAction(e -> {
             Secteur secteurC = this.robot.getSecteur();
             if (this.controller.MoveRobot(this.robot, "H")){
-                FillRectangle(secteurC);
-                for (Rectangle rect : this.rectangles) {
-                    if (rect.getX() == this.rectangle.getX() && rect.getY() == this.rectangle.getY() - 50) {
-                        this.rectangle = rect;
-                        FillRectangle(this.robot.getSecteur());
-                        System.out.println(this.controller.getGrille().toString());
-                        break;
-                    }
-                }
+                pageJeu.displayGame();
             }
         });
 
         this.buttonBas.setOnAction(e -> {
             Secteur secteurC = this.robot.getSecteur();
             if (this.controller.MoveRobot(this.robot, "B")){
-                FillRectangle(secteurC);
-                for (Rectangle rect : this.rectangles) {
-                    if (rect.getX() == this.rectangle.getX() && rect.getY() == this.rectangle.getY() + 50) {
-                        this.rectangle = rect;
-                        FillRectangle(this.robot.getSecteur());
-                        System.out.println(this.controller.getGrille().toString());
-                        break;
-                    }
-                }
+                pageJeu.displayGame();
             }
         });
 
         this.buttonGauche.setOnAction(e -> {
             Secteur secteurC = this.robot.getSecteur();
             if (this.controller.MoveRobot(this.robot, "G")){
-                FillRectangle(secteurC);
-                for (Rectangle rect : this.rectangles) {
-                    if (rect.getX() == this.rectangle.getX() - 50 && rect.getY() == this.rectangle.getY()) {
-                        this.rectangle = rect;
-                        FillRectangle(this.robot.getSecteur());
-                        System.out.println(this.controller.getGrille().toString());
-                        break;
-                    }
-                }
+                pageJeu.displayGame();
             }
         });
 
         this.buttonDroite.setOnAction(e -> {
             Secteur secteurC = this.robot.getSecteur();
             if (this.controller.MoveRobot(this.robot, "D")){
-                FillRectangle(secteurC);
-                for (Rectangle rect : this.rectangles) {
-                    if (rect.getX() == this.rectangle.getX() + 50 && rect.getY() == this.rectangle.getY()) {
-                        this.rectangle = rect;
-                        FillRectangle(this.robot.getSecteur());
-                        System.out.println(this.controller.getGrille().toString());
-                        break;
-                    }
-                }
+                pageJeu.displayGame();
             }
         });
 
@@ -164,28 +132,5 @@ public class PageRobot extends Stage {
         this.scene = new Scene(root, 300, 120);
         this.setTitle(STR."Robot \{this.robot.getNumR()}");
         this.setScene(scene);
-    }
-
-    public void FillRectangle(Secteur secteur){
-        switch (secteur.toString()) {
-            case " M":
-                this.rectangle.setFill(pageJeu.ImagePattern5);
-                break;
-            case " E":
-                this.rectangle.setFill(pageJeu.ImagePattern3);
-                break;
-            case "RE":
-                this.rectangle.setFill(pageJeu.ImagePattern6);
-                break;
-            case "RM":
-                this.rectangle.setFill(pageJeu.ImagePattern7);
-                break;
-            case "R ":
-                this.rectangle.setFill(pageJeu.ImagePattern4);
-                break;
-            default:
-                this.rectangle.setFill(pageJeu.ImagePattern1);
-                break;
-        }
     }
 }

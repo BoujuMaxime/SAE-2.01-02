@@ -28,6 +28,10 @@ public class EventManager implements EventHandler {
                  p.pressQuit();
                  System.exit(0);
              }
+             else if (event.toString().contains("dijkstra")) {
+                 p.pressStart();
+                 p.play();
+             }
          }
          if (event.getSource() instanceof Rectangle) {
              if (((Rectangle) event.getSource()).getFill() == p.ImagePattern4 || ((Rectangle) event.getSource()).getFill() == p.ImagePattern6 || ((Rectangle) event.getSource()).getFill() == p.ImagePattern7) {
@@ -38,10 +42,5 @@ public class EventManager implements EventHandler {
                  p.pressMine((Rectangle) event.getSource());
              }
          }
-        if (event.getSource() instanceof Button) {
-            if (((Button) event.getSource()).getText().equals("auto")) {
-                p.play();
-            }
-        }
     }
 }

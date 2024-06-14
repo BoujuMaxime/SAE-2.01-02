@@ -96,4 +96,8 @@ public class Grille {
         }
         return neighbors;
     }
+
+    public boolean estConnu(Secteur secteur) {
+        return secteur.estConnu();
+    }
 }
