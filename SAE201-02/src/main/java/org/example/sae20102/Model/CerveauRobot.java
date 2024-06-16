@@ -20,14 +20,14 @@ public class CerveauRobot {
             if (BrouillardRestant(grille)) {
                 return "Discover";
             }
-            else if (robot.getQuantite() < robot.getCapacite() && nearestMine.getCapacite() > 0) { // Robot empty and mine not empty
+            else if (robot.getQuantite() < robot.getCapacite() && nearestMine.getCapacite() > 0) { // Robot vide et mine non vide
                 // Si nous sommes deja sur la mine
                 if (robot.getSecteur().equals(nearestMine.getSecteur())) {
                     return "Fill";
                 } else {    // Sinon on se dirige vers la mine
                     return "Move";
                 }
-            } else if (robot.getQuantite() == robot.getCapacite()) { // Robot full
+            } else if (robot.getQuantite() == robot.getCapacite()) { // Robot plein
                 // Si nous sommes deja sur l'entrepot
                 if (robot.getSecteur().equals(nearestEntrepot.getSecteur())) {
                     return "Unload";
@@ -37,7 +37,7 @@ public class CerveauRobot {
             }
         }
         else if (nearestEntrepot != null) {
-            if (robot.getQuantite() > 0) { // Robot full
+            if (robot.getQuantite() > 0) { // Robot pas vide
                 // Si nous sommes deja sur l'entrepot
                 if (robot.getSecteur().equals(nearestEntrepot.getSecteur())) {
                     return "Unload";
@@ -111,7 +111,7 @@ public class CerveauRobot {
                         pathMap.put(neighbor, current);
 
                         // Si le voisin est une destination
-                        if (!findMine && neighbor == EntrepotProche(robot, entrepots).getSecteur()) {
+                        if (neighbor == EntrepotProche(robot, entrepots).getSecteur()) {
                             List<Secteur> path = new ArrayList<>();
                             for (Secteur secteur = neighbor; secteur != null; secteur = pathMap.get(secteur)) {
                                 path.add(secteur);
