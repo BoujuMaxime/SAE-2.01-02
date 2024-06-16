@@ -1,8 +1,8 @@
 package org.example.sae20102.Model;
 
-import org.example.sae20102.Controller;
-
 import java.util.*;
+
+import static java.util.Comparator.comparingInt;
 
 public class CerveauRobot {
 
@@ -13,88 +13,124 @@ public class CerveauRobot {
     // Une fois l'entrepot atteint, on décharge le robot
 
     public static String getChoiceRobot(Robot robot, Grille grille, Mine[] mines, Entrepot[] entrepots) {
-        Mine nearestMine = findNearestMine(robot, mines);
-        Entrepot nearestEntrepot = findNearestEntrepot(robot, entrepots);
+        Mine nearestMine = MineProche(robot, mines);
+        Entrepot nearestEntrepot = EntrepotProche(robot, entrepots);
         if (nearestMine != null && nearestEntrepot != null) {
-            // Si des case ne sont pas encore connues, on les découvre
-            if (!grille.estConnu(nearestMine.getSecteur()) || !grille.estConnu(nearestEntrepot.getSecteur())) {
+            // Si toutes les cases ne sont pas connues
+            if (BrouillardRestant(grille)) {
                 return "Discover";
             }
             else if (robot.getQuantite() < robot.getCapacite() && nearestMine.getCapacite() > 0) { // Robot empty and mine not empty
-                // If is already in a "Mine" of the same type
+                // Si nous sommes deja sur la mine
                 if (robot.getSecteur().equals(nearestMine.getSecteur())) {
                     return "Fill";
-                } else {
+                } else {    // Sinon on se dirige vers la mine
                     return "Move";
                 }
             } else if (robot.getQuantite() == robot.getCapacite()) { // Robot full
-                // If is already in a "Entrepot" of the same type
+                // Si nous sommes deja sur l'entrepot
                 if (robot.getSecteur().equals(nearestEntrepot.getSecteur())) {
                     return "Unload";
-                } else {
+                } else {   // Sinon on se dirige vers l'entrepot
                     return "Move";
                 }
             }
         }
-
-        return "Error";
+        else if (nearestEntrepot != null) {
+            if (robot.getQuantite() > 0) { // Robot full
+                // Si nous sommes deja sur l'entrepot
+                if (robot.getSecteur().equals(nearestEntrepot.getSecteur())) {
+                    return "Unload";
+                } else {   // Sinon on se dirige vers l'entrepot
+                    return "Move";
+                }
+            }
+        }
+        return "Move";
     }
 
     public static List<Secteur> dijkstra(Robot robot, Grille grille, boolean findMine, Mine[] mines, Entrepot[] entrepots) {
-        // Initialization of the distance array full of maximum values
+        // Initialisation de la matrice des distances
         int[][] dist = new int[10][10];
         for (int[] row : dist) {
-            Arrays.fill(row, Integer.MAX_VALUE);
+            Arrays.fill(row, Integer.MAX_VALUE); // On initialise toutes les distances à l'infini
         }
-        // Set the distance from the robot to itself as 0
         dist[robot.getSecteur().getLigne()][robot.getSecteur().getColonne()] = 0;
 
-        // Priority queue to hold the sectors to be visited, sorted by their distance from the robot
-        PriorityQueue<Secteur> queue = new PriorityQueue<>(Comparator.comparingInt(s -> dist[s.getLigne()][s.getColonne()]));
+        // Priority queue pour lister les secteurs à visiter en ordre croissant de distance
+        PriorityQueue<Secteur> queue = new PriorityQueue<>(comparingInt(s -> dist[s.getLigne()][s.getColonne()]));
         queue.add(robot.getSecteur());
 
-        // Map to hold the shortest path from the robot to each sector
+        // Map pour stocker le chemin le plus court entre un secteur et le secteur actuel
         Map<Secteur, Secteur> pathMap = new HashMap<>();
 
-        // While there are sectors to be visited
+        // Tant qu'il reste des secteurs à visiter
         while (!queue.isEmpty()) {
             Secteur current = queue.poll();
 
-            // For each neighbor of the current sector
+            // Pour chaque voisin du secteur actuel
             for (Secteur neighbor : grille.getNeighbors(current)) {
-                // If the neighbor is the target sector or an accessible sector
-                if (findMine && neighbor == findNearestMine(robot, mines).getSecteur() || !findMine && neighbor == findNearestEntrepot(robot, entrepots).getSecteur()
+                if(MineProche(robot, mines) != null) {
+                    // Si le voisin est la mine la plus proche ou l'entrepot le plus proche ou si le voisin n'est pas un obstacle
+                    if (findMine && neighbor == MineProche(robot, mines).getSecteur() || !findMine && neighbor == EntrepotProche(robot, entrepots).getSecteur()
+                            || (neighbor != null && !neighbor.getCellule(0, 0).equals("X") && !neighbor.getCellule(1, 0).equals("R"))) {
+
+                        // Alors on calcule la distance alternative
+                        int alt = dist[current.getLigne()][current.getColonne()] + 1;
+
+                        // Si cette distance est plus courte que la distance enrégistrée
+                        if (alt < dist[neighbor.getLigne()][neighbor.getColonne()]) {
+                            // On met à jour la distance
+                            dist[neighbor.getLigne()][neighbor.getColonne()] = alt;
+                            queue.add(neighbor);
+                            pathMap.put(neighbor, current);
+
+                            // Si le voisin est une destination
+                            if (findMine && neighbor == MineProche(robot, mines).getSecteur() || !findMine && neighbor == EntrepotProche(robot, entrepots).getSecteur()) {
+                                List<Secteur> path = new ArrayList<>();
+                                for (Secteur secteur = neighbor; secteur != null; secteur = pathMap.get(secteur)) {
+                                    path.add(secteur);
+                                }
+                                Collections.reverse(path);
+                                return path; // On retourne le chemin
+                            }
+                        }
+                    }
+                }
+                // On prend le cas du dernier depot vers un entrepot
+                else if (!findMine && neighbor == EntrepotProche(robot, entrepots).getSecteur()
                         || (neighbor != null && !neighbor.getCellule(0, 0).equals("X") && !neighbor.getCellule(1, 0).equals("R"))) {
-                    // Calculate the alternative distance to the neighbor through the current sector
+                    // Alors on calcule la distance alternative
                     int alt = dist[current.getLigne()][current.getColonne()] + 1;
-                    // If the alternative distance is shorter
+
+                    // Si cette distance est plus courte que la distance enrégistrée
                     if (alt < dist[neighbor.getLigne()][neighbor.getColonne()]) {
-                        // Update the shortest distance and the path
+                        // On met à jour la distance
                         dist[neighbor.getLigne()][neighbor.getColonne()] = alt;
                         queue.add(neighbor);
                         pathMap.put(neighbor, current);
 
-                        // If the neighbor is the target sector, return the path
-                        if (findMine && neighbor == findNearestMine(robot, mines).getSecteur() || !findMine && neighbor == findNearestEntrepot(robot, entrepots).getSecteur()) {
+                        // Si le voisin est une destination
+                        if (!findMine && neighbor == EntrepotProche(robot, entrepots).getSecteur()) {
                             List<Secteur> path = new ArrayList<>();
-                            for (Secteur at = neighbor; at != null; at = pathMap.get(at)) {
-                                path.add(at);
+                            for (Secteur secteur = neighbor; secteur != null; secteur = pathMap.get(secteur)) {
+                                path.add(secteur);
                             }
                             Collections.reverse(path);
-                            return path;
+                            return path; // On retourne le chemin
                         }
                     }
                 }
             }
         }
-        // If no path is found, return null
         return null;
     }
 
     public static String getDirectionRobot(Robot robot, Grille grille, Mine[] mines, Entrepot[] entrepots) {
+        // On recupere le chemin le plus court grace a l'algorithme de Dijkstra
         List<Secteur> path = dijkstra(robot, grille, robot.getQuantite() < robot.getCapacite(), mines, entrepots);
-        if (path != null && path.size() > 1) {
-            Secteur next = path.get(1);
+        if (path != null && path.size() > 1) {  // Si le chemin existe et contient plus d'un secteur car le premier est le secteur actuel
+            Secteur next = path.get(1);         // On recupere le prochain secteur et on retourne la direction pour s'y rendre
             if (next.getLigne() < robot.getSecteur().getLigne()) {
                 return "H";
             } else if (next.getLigne() > robot.getSecteur().getLigne()) {
@@ -106,14 +142,6 @@ public class CerveauRobot {
             }
         }
         // retourner un random si le robot est bloqué entre H et B ou G et D
-        return new Random().nextBoolean() ? "H" : "G";
-    }
-
-    public static String Discover(Robot robot, Grille grille, Mine[] mines, Entrepot[] entrepots) {
-        if (getDirectionToUndiscovered(robot, grille) != null) {
-            return getDirectionToUndiscovered(robot, grille);
-        }
-
         Random rand = new Random();
         switch(rand.nextInt(4)) {
             case 0:
@@ -127,26 +155,51 @@ public class CerveauRobot {
         }
     }
 
-    public static String getDirectionToUndiscovered(Robot robot, Grille grille) {
+    public static String Visite(Robot robot, Grille grille, Mine[] mines, Entrepot[] entrepots) {
+        // Si un secteur voisin n'est pas connu, on se dirige vers lui
+        if (VisiteBrouillard(robot, grille) != null) {
+            return VisiteBrouillard(robot, grille);
+        }
+
+        // Sinon, on se déplace aléatoirement
+        Random rand = new Random();
+        switch(rand.nextInt(4)) {
+            case 0:
+                return "H";
+            case 1:
+                return "B";
+            case 2:
+                return "G";
+            default:
+                return "D";
+        }
+    }
+
+    public static String VisiteBrouillard(Robot robot, Grille grille) {
         Secteur current = robot.getSecteur();
         Secteur[] neighbors = grille.getNeighbors(current);
         for (Secteur neighbor : neighbors) {
-            if (neighbor != null && !grille.estConnu(neighbor)) {
-                if (neighbor.getLigne() < current.getLigne()) {
-                    return "H";
-                } else if (neighbor.getLigne() > current.getLigne()) {
-                    return "B";
-                } else if (neighbor.getColonne() < current.getColonne()) {
-                    return "G";
-                } else if (neighbor.getColonne() > current.getColonne()) {
-                    return "D";
+            if(neighbor != null && !neighbor.getCellule(0, 0).equals("X") && !neighbor.getCellule(1, 0).equals("R")) {
+                Secteur[] neighborsNeighbor = grille.getNeighbors(neighbor);
+                for (Secteur neighborNeighbor : neighborsNeighbor) {
+                    if (neighborNeighbor != null && !grille.estConnu(neighborNeighbor)) {
+                        if (neighbor.getLigne() < current.getLigne()) {
+                            return "H";
+                        } else if (neighbor.getLigne() > current.getLigne()) {
+                            return "B";
+                        } else if (neighbor.getColonne() < current.getColonne()) {
+                            return "G";
+                        } else if (neighbor.getColonne() > current.getColonne()) {
+                            return "D";
+                        }
+                    }
                 }
             }
         }
         return null;
     }
 
-    private static Entrepot findNearestEntrepot(Robot robot, Entrepot[] entrepots) {
+    private static Entrepot EntrepotProche(Robot robot, Entrepot[] entrepots) {
         int minDist = Integer.MAX_VALUE;
         Entrepot nearest = null;
         for (Entrepot entrepot : entrepots) {
@@ -161,7 +214,7 @@ public class CerveauRobot {
 
     }
 
-    private static Mine findNearestMine(Robot robot, Mine[] mines) {
+    private static Mine MineProche(Robot robot, Mine[] mines) {
         int minDist = Integer.MAX_VALUE;
         Mine nearest = null;
         for (Mine mine : mines) {
@@ -173,5 +226,16 @@ public class CerveauRobot {
             }
         }
         return nearest;
+    }
+
+    private static boolean BrouillardRestant(Grille grille) {
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                if (!grille.estConnu(grille.getSecteur(i, j))) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

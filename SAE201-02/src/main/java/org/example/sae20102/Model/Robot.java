@@ -25,21 +25,15 @@ public class Robot {
                 this.quantite += quantite;
                 return mine.Extrate(quantite);
             }
-        } else {
-            System.out.println("Le robot ne peut pas transporter ce type de minerai");
         }
         return false;
     }
 
     public boolean Unload(Entrepot entrepot) {
         if (this.nature.equals(entrepot.getNature())) {
-            System.out.println("test");
             entrepot.Fill(this.quantite);
             this.quantite = 0;
             return true;
-        }
-        else {
-            System.out.println("L'entrepot ne peut pas recevoir ce type de minerai");
         }
         return false;
     }

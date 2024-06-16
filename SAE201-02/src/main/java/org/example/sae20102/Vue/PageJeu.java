@@ -169,37 +169,49 @@ public class PageJeu extends Application {
 
 
     public void play() {
-        // Declare the timeline variable
+        // On crée un tableau de timeline pour pouvoir l'arrêter plus tard
         final Timeline[] timelineHolder = new Timeline[1];
 
-        // Create the timeline
+            // On crée une timeline qui se déclenche toutes les 0.15 secondes
         timelineHolder[0] = new Timeline(new KeyFrame(Duration.seconds(0.15), event -> {
             // Update the game state
             this.grille = controller.play();
 
-            // Display the updated game state
+            // On met à jour l'affichage
             displayGame();
 
-            // Check if all mines are empty
+            // On vérifie si toutes les mines sont vides
             Mine[] mines = this.controller.getMines();
-            boolean allMinesEmpty = true;
+            boolean minesVides = true;
             for (Mine mine : mines) {
                 if (mine.getCapacite() > 0) {
-                    allMinesEmpty = false;
+                    minesVides = false;
+                    break;
+                }
+            }
+            // On vérifie si tous les robots sont vides
+            Robot[] robots = this.controller.getRobots();
+            boolean RobotsVides = true;
+            for (Robot robot : robots) {
+                if (robot.getQuantite() > 0) {
+                    RobotsVides = false;
                     break;
                 }
             }
 
-            // Stop the timeline if all mines are empty
-            if (allMinesEmpty) {
+
+            // On arrête la timeline si toutes les mines et tous les robots sont vides
+            if (minesVides && RobotsVides) {
                 timelineHolder[0].stop();
+                // On ferme la fenêtre
+                stage.close();
             }
         }));
 
-        // Set the timeline to repeat 10000 times
+        // On met la timeline en boucle
         timelineHolder[0].setCycleCount(10000);
 
-        // Start the timeline
+        // On lance la timeline
         timelineHolder[0].play();
     }
     public void pressStart() {

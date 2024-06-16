@@ -251,7 +251,7 @@ public class Controller  {
                     MoveRobot(robot, direction);
                     break;
                 case "Discover":
-                    direction = CerveauRobot.Discover(robot, grille, mines, entrepots);
+                    direction = CerveauRobot.Visite(robot, grille, mines, entrepots);
                     MoveRobot(robot, direction);
                     break;
             }
